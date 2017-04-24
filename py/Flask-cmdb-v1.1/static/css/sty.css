@@ -1,0 +1,45 @@
+.error {
+    color:red;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.btn-k {
+    display: block;
+    width: 50%;
+}
+
+/* .btn-zhu {
+    position:absolute;
+    right: 570px;
+    top: 186px;
+}
+.btn-deng {
+    position:absolute;
+    right: 570px;
+    top: 225px;
+} */
+
+.logo {
+    position:absolute;
+    left: 50px;
+}
+
+.aaa {
+    margin-top: 13%;
+    margin-left: 34px;
+}
+.bbb {
+    position:absolute;
+    left:5px;
+}
+.juzhong {
+    text-align: center;
+}
+
+
+
+

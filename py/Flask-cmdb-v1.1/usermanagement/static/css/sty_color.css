@@ -1,0 +1,45 @@
+/*  导航属性值   */
+.title_daohang {
+    background-color: #428fb9;
+    border-color: #428fb9;
+}
+
+.wenzi {
+    color: #fff !important;
+}
+
+.wenzi1 {
+    color: #fff !important;
+    background-color: #428fb9 !important;
+}
+
+/* 运维平台系统 字体以及背景，经过颜色  */
+
+.a_hover {
+        color: #fff !important;
+    }
+
+nav .open a:visited {
+    background-color: #25658f !important;
+}
+
+nav .open li a:hover {
+    background-color: #e7e7e7 !important;
+}
+
+/* 登录人css  */
+nav .active a:visited {
+    background-color: #60a7d3 !important;
+}
+
+nav li a:visited {
+    background-color: #60a7d3 !important; ;
+}
+
+/* 伪导航条字体颜色 */
+.wenzi2 {
+    margin-left: 45px;
+    position: absolute;
+    top: 57px;
+}
+

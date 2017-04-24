@@ -1,0 +1,92 @@
+﻿centos6.5 镜像制作
+
+首先需要有kvm环境
+
+创建一个空的镜像文件：
+kvm
+创建命令：
+virt-install  --name centos-6.5-compile --ram 1024 --cdrom=CentOS-6.5-x86_64-bin-DVD1.iso --disk centos-6.5-compile.qcow2,format=qcow2 --graphics vnc,listen=0.0.0.0 --noautoconsole --os-type=linux --os-variant=rhel6
+启动 
+virsh start centos-6.5
+虚拟机的vnc端口
+virsh vncdisplay centos-6.5
+(3)要使nova console-log 能将实例启动过程输出到实例启动日志中，要在文件/boot/grub/menu.lst 中kernel参数中增加下面的内容: 
+kernel ...（省略n个参数）... console=tty0 console=ttyS0,115200n8
+
+(4)修改网络信息 /etc/sysconfig/network-scripts/ifcfg-eth0 （删掉mac信息)如下: TYPE=Ethernet
+ DEVICE=eth0
+ ONBOOT=yes
+ BOOTPROTO=dhcp
+ NM_CONTROLLED=no    增加一行到/etc/sysconfig/network ： NOZERCONF=yes
+ 
+（5）增加epel源
+yum install wget -y
+wget http://mirrors.aliyun.com/epel/epel-release-latest-6.noarch.rpm
+rpm -ivh epel-release-latest-6.noarch.rpm 
+
+
+（6）安装ACPI服务，能让宿主机对虚拟机进行开关机等电源管理操作 
+yum install acpid -y 
+chkconfig acpid on
+/etc/init.d/acpid start
+
+（7）安装linux rootfs resize，使得实例启动时可以自动扩展根分区 cd /tmp
+ yum install git -y
+
+ git clone https://github.com/flegmatik/linux-rootfs-resize.git
+ cd linux-rootfs-resize
+ ./install
+
+（8）安装cloud-init yum install -y cloud-utils cloud-init parted    修改配置文件/etc/cloud/cloud.cfg ，在cloud_init_modules 下面增加:  - resolv-conf（9）关机：  poweroff6、
+ 
+ 
+ 
+ yum install libmpc -y
+ yum install kernel* -y
+ yum groupinstall 'Development Tools' -y
+ yum install openssl* -y
+ yum install openssl-devel  -y
+ yum install openssh* -y
+
+rm -rf /usr/bin/gcc
+rm -rf /usr/bin/g++
+ln -s /opt/app/gcc/bin/gcc /usr/bin/gcc
+ln -s /opt/app/gcc/bin/g++ /usr/bin/g++
+yum install vim-enhanced wget gdb net-tools unzip lrzsz iftop gmp*  gmpy  mpfr*  kernel* libmpc openssl* openssh* -y
+
+
+善后操作
+
+（1）清除网络相关硬件生成信息 virt-sysprep -d centos-6.5
+
+（2）压缩镜像 virt-sparsify --compress /tmp/centos-6.5.qcow2 centos-6.5-cloud.qcow2
+
+
+rm /etc/udev/rules.d/70-persistent-net.rules
+sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i '/UUID/d' /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i '/^ONBOOT/ s/no/yes/g' /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i '/^NM_CONTROLLED/ s/yes/no/g' /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "NOZEROCONF=yes" >> /etc/sysconfig/network
+
+sed -i 's/timeout=5/timeout=0/g' /boot/grub/menu.lst
+sed -i '/^\skernel/ s/$/ console=tty0 console=ttyS0,115200n8/' /boot/grub/menu.lst
+# say something cute in /etc/motd
+echo "This is Openstack-CentOS-6" >> /etc/motd
+
+
+
+
+
+
+
+
+
+openstack image create 'Centos6.5-compile' --file centos-6.5-cloud.qcow2 --disk-format qcow2  --container-format bare   --public
+
+
+
+virt-sysprep -d centos-6.5-compile
+virt-sparsify --compress centos-6.5-compile.qcow2 centos-6.5-cloud.qcow2
+scp  centos-6.5-cloud.qcow2 192.168.10.11:/root
+

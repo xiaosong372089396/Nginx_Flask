@@ -1,0 +1,255 @@
+环境：(elasticsearch-5.1.2 elasticsearch-head logstash-5.1.2 kibana-5.1.2)+supervisor-3.3.1+centos 6.8
+
+一、准备工作
+yum -y install java-1.8.0-openjdk
+
+# 配置java环境变量，添加如下内容：
+vim /etc/profile 
+export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk.x86_64
+export CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$PATH:$JAVA_HOME/bin
+
+
+# 修改系统参数
+vim /etc/security/limits.conf
+* soft nofile 65536
+* hard nofile 131072
+* soft nproc 2048
+* hard nproc 4096
+
+vim /etc/security/limits.d/90-nproc.conf 
+*          soft    nproc     2048
+root       soft    nproc     unlimited
+
+vim /etc/sysctl.conf
+vm.max_map_count=655360
+
+init 6
+
+mkdir /usr/local/elk
+cd /usr/local/src
+wget https://artifacts.elastic.co/downloads/kibana/kibana-5.1.2-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.1.2.tar.gz
+wget https://artifacts.elastic.co/downloads/logstash/logstash-5.1.2.tar.gz
+wget https://pypi.python.org/packages/80/37/964c0d53cbd328796b1aeb7abea4c0f7b0e8c7197ea9b0b9967b7d004def/supervisor-3.3.1.tar.gz
+
+二、安装elasticsearch，x-pack
+
+useradd -s /sbin/nologin elastic
+
+tar xf /usr/local/src/elasticsearch-5.1.2.tar.gz -C /usr/local/elk/ && cd /usr/local/elk/ && mv elasticsearch-5.1.2 elasticsearch
+
+/usr/local/elk/elasticsearch/bin/elasticsearch-plugin install x-pack
+
+chown -R elastic.elastic /usr/local/elk/elasticsearch/
+
+vim /usr/local/elk/elasticsearch/config/elasticsearch.yml
+cluster.name: qj-elk-test
+node.name: qj-node-1
+network.host: 192.168.1.130
+http.port: 9200
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+xpack.security.authc:
+  anonymous:
+    username: guest
+    roles: superuser
+    authz_exception: true
+
+三、安装elasticsearch-head
+yum -y install git npm
+cd /usr/local/elk/elasticsearch/ && git clone git://github.com/mobz/elasticsearch-head.git
+cd elasticsearch-head && npm install grunt && npm install
+
+vim /usr/local/elk/elasticsearch/elasticsearch-head/Gruntfile.js
+                connect: {
+                        server: {
+                                options: {
+                                        port: 9100,
+                                        hostname: '192.168.1.130',
+                                        base: '.',
+                                        keepalive: true
+                                }
+                        }
+                }
+
+vim /usr/local/elk/elasticsearch/elasticsearch-head/_site/app.js
+	init: function(parent) {
+                        this._super();
+                        this.prefs = services.Preferences.instance();
+                        this.base_uri = this.config.base_uri || this.prefs.get("app-base_uri") || "http://192.168.1.130:9200";
+
+四、安装logstash
+tar xf /usr/local/src/logstash-5.1.2.tar.gz -C /usr/local/elk/ && cd /usr/local/elk/ && mv logstash-5.1.2 logstash
+
+vim /usr/local/elk/logstash/config/logstash-simple.conf
+input { stdin { } }
+output {
+  elasticsearch {
+    hosts => ["192.168.1.130:9200"]
+    user => elastic
+    password => changeme
+  }
+  stdout { codec => rubydebug }
+}
+
+五、安装kibana，x-pack
+tar xf /usr/local/src/kibana-5.1.2-linux-x86_64.tar.gz -C /usr/local/elk && cd /usr/local/elk/ && mv kibana-5.1.2-linux-x86_64 kibana
+
+/usr/local/elk/kibana/bin/kibana-plugin install x-pack
+
+vim /usr/local/elk/kibana/config/kibana.yml
+server.host: "192.168.1.130"
+elasticsearch.url: "http://192.168.1.130:9200"
+elasticsearch.username: "elastic"
+elasticsearch.password: "changeme"
+pid.file: /var/run/kibana.pid
+
+六、安装supervisor
+
+tar xf /usr/local/src/supervisor-3.3.1.tar.gz -C /usr	/local/ && cd /usr/local/ && mv supervisor-3.3.1 
+supervisor && cd supervisor && mkdir supervisor_ini && mkdir /var/log/supervisor
+
+python setup.py install
+
+echo_supervisord_conf >/etc/supervisord.conf
+
+vim /etc/supervisord.conf
+[unix_http_server]
+file=/var/run/supervisor.sock   ; (the path to the socket file)
+[inet_http_server]         ; inet (TCP) server disabled by default
+port=0.0.0.0:9001        ; (ip_address:port specifier, *:port for all iface)
+username=elastic		; (default is no username (open server))
+password=changeme      ; (default is no password (open server))
+[supervisord]
+logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
+logfile_backups=10           ; (num of main logfile rotation backups;default 10)
+loglevel=info                ; (log level;default info; others: debug,warn,trace)
+pidfile=/var/run/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+nodaemon=false               ; (start in foreground if true;default false)
+minfds=65536                  ; (min. avail startup file descriptors;default 1024)
+minprocs=2048                 ; (min. avail process descriptors;default 200)
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+[supervisorctl]
+serverurl=unix:///var/run/supervisor.sock ; use a unix:// URL  for a unix socket
+[include]
+files = /usr/local/supervisor/supervisor_ini/*.ini
+
+vim /usr/local/supervisor/supervisor_ini/elastic_stack.ini
+[program:elasticsearch]
+directory=/usr/local/elk/elasticsearch
+command=/usr/local/elk/elasticsearch/bin/elasticsearch
+process_name=elasticsearch ; process_name expr (default %(program_name)s)
+user=elastic
+numprocs=1                    ; number of processes copies to start (def 1)
+priority=1                  ; the relative start priority (default 999)
+autostart=true                ; start at supervisord start (default: true)
+startretries=3                ; max # of serial start failures when starting (default 3)
+autorestart=true        ; when to restart if exited after running (def: unexpected)
+stopasgroup=true             ; send stop signal to the UNIX process group (default false)
+killasgroup=true
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/supervisor_elasticsearch.log
+[program:elasticsearch-head]
+directory=/usr/local/elk/elasticsearch/elasticsearch-head
+command=/usr/bin/grunt server
+process_name=elasticsearch-head ; process_name expr (default %(program_name)s)
+numprocs=1                    ; number of processes copies to start (def 1)
+priority=2                  ; the relative start priority (default 999)
+autostart=true                ; start at supervisord start (default: true)
+startretries=3                ; max # of serial start failures when starting (default 3)
+autorestart=true        ; when to restart if exited after running (def: unexpected)
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/supervisor_elasticsearch-head.log
+[program:logstash]
+directory=/usr/local/elk/logstash
+command=/usr/local/elk/logstash/bin/logstash -f /usr/local/elk/logstash/config/logstash-simple.conf
+process_name=logstash ; process_name expr (default %(program_name)s)
+numprocs=1                    ; number of processes copies to start (def 1)
+priority=3                  ; the relative start priority (default 999)
+autostart=true                ; start at supervisord start (default: true)
+startretries=3                ; max # of serial start failures when starting (default 3)
+autorestart=true        ; when to restart if exited after running (def: unexpected)
+stopasgroup=true             ; send stop signal to the UNIX process group (default false)
+killasgroup=true             ; SIGKILL the UNIX process group (def false)
+redirect_stderr=true          ; redirect proc stderr to stdout (default false)
+stdout_logfile=/var/log/supervisor/supervisor_logstash.log       ; stdout log path, NONE for none; default AUTO
+[program:kibana]
+directory=/usr/local/elk/kibana
+command=/usr/local/elk/kibana/bin/kibana
+process_name=kibana ; process_name expr (default %(program_name)s)
+numprocs=1                    ; number of processes copies to start (def 1)
+priority=4                  ; the relative start priority (default 999)
+autostart=true                ; start at supervisord start (default: true)
+startretries=3                ; max # of serial start failures when starting (default 3)
+autorestart=true        ; when to restart if exited after running (def: unexpected)
+redirect_stderr=true
+stdout_logfile=/var/log/supervisor/supervisor_kibana.log
+[group:elk_stack]
+programs=elasticsearch,elasticsearch-head,logstash,kibana ; each refers to 'x' in [program:x] definitions
+priority=1
+
+vim /etc/init.d/supervisord
+#! /bin/sh
+# chkconfig: 2345 94 14
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+PROGNAME=supervisord
+
+DAEMON=/usr/bin/$PROGNAME
+
+CONFIG=/etc/$PROGNAME.conf
+
+PIDFILE=/var/run/$PROGNAME.pid
+
+DESC="supervisord daemon"
+
+SCRIPTNAME=/etc/init.d/$PROGNAME
+
+# Gracefully exit if the package has been removed.
+
+test -x $DAEMON || exit 0
+
+start()
+
+{
+        echo -n "Starting $DESC: $PROGNAME"
+        $DAEMON -c $CONFIG
+        echo "..."
+}
+
+stop()
+
+{
+        echo -n "Stopping $DESC: $PROGNAME"
+        supervisor_pid=$(cat $PIDFILE)
+        kill -15 $supervisor_pid
+        echo "..."
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        stop
+        start
+        ;;
+  *)
+echo "Usage: $SCRIPTNAME {start|stop|restart}" >&2
+exit 1
+;;
+esac
+exit 0
+
+chmod a+x /etc/init.d/supervisord
+
+/etc/init.d/supervisord start
+
+浏览器打开：http://127.0.0.1:9001，输入配置的elastic/changeme进入管理界面

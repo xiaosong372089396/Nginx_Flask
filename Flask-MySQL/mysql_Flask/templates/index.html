@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Flask Learn</title>
+	</head>
+	<body>
+		<!-- 我是注释，页面看不到 -->
+		<!-- 定义普通button控制form显示吟唱 -->
+		<input class="btn_login" type="button" value="用户登陆"/>
+		<input class="btn_registe" type="button" value="用户注册" /><br/>
+		
+		<!--
+			form标签表示表单
+			可以设置属性action,method
+			action: 提交表单的到的url地址
+			method: 提交使用的http协议(post, get)
+			
+			定义id，通过jQuery(".id")查找
+		-->
+		<form id="login" action="/login/" method="post">
+			<!--
+				form表单内使用input标签定义用户填写的输入框
+				可以设置属性 type、name、value
+				type: 用来执行input标签输入和展示的形态
+					  主要有:
+						submit: 提交表单的按钮
+						button: 普通的按钮
+						text: 文本
+						password: 密码框
+				name: 用来执行提交到web后，输入内容对应的名字（用于web程序取出对应的内容）
+				value: 主要用于在浏览器上进行显示
+
+	<	咱们现在要定义登陆表单， 必须填写的是用户名和密码，再加一个登陆按钮，那就用三个input -->
+			用户名: <input type="text" name="username" /> <br/> <!-- br 标签标识换行 -->
+			密码:<input type="password" name="password" /> <br/>
+			<input type="submit" value="登陆" />
+			<!--
+			定义btn_registe的按钮用来控制注册form显示
+			-->
+			<!--
+			<input class="btn_registe" type="button" value="注册" />
+			-->
+		</form>
+
+		<!--
+			咱们还有一个表单是注册用的
+			定义class，通过jQuery(".classname")查找
+		-->
+		<form class="registe" action="/registe" method="post">
+			用户名: <input type="text" name="username" /><br/>
+			手机号: <input type="text" name="telephone" /><br/>
+			密码:<input type="password" name="password" /> <br/>
+			<!--
+			<input class="btn_login" type="button" value="登陆"/>
+			-->
+			<input type="submit" value="注册"/>
+		</form>
+		<!-- 引用jquery.js文件 -->
+		<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<!-- 定义js脚本 -->
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				//隐藏registe表单，使用class查找
+				jQuery(".registe").hide();
+				jQuery(".btn_login").hide();
+				//对btn_registe注册事件，显示注册表单
+				jQuery(".btn_registe").bind('click', function() {
+					//显示注册表单
+					jQuery(".registe").show();
+					jQuery(".btn_login").show();
+					//显示注册表单，同时隐藏登陆表单
+					jQuery("#login").hide();
+					jQuery(".btn_registe").hide();
+				});
+				jQuery(".btn_login").bind("click", function() {
+					//显示登陆表单
+					jQuery(".btn_registe").show();
+					jQuery("#login").show();
+					//显示登陆表单，同时隐藏注册表单
+					jQuery(".registe").hide();
+					jQuery('.btn_login').hide();
+				});
+			});
+		</script>
+	</body>
+</html>

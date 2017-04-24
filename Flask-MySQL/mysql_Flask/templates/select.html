@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">    
+    </head>
+       <body>
+            <form id='select' action="/select/" method="post">
+               <input type="text" name="user"  /><br />
+               <input type="submit" value="查找">
+           </form>    
+           
+                 {% for option in pages %} 
+               <input type="text" name="id" value={{option[0]}} />id号<br> 
+               <input type="text" name="username" value={{option[1]}} />用户名:<br />
+               <input type="password" name="password" value={{option[2]}} />密码:<br />
+               <input type="text" name="age"   value={{option[3]}} />年龄:<br />
+               <input type="text" name="email" value={{option[4]}} />邮箱<br />
+               <input type="text" name="IPhone" value={{option[5]}} />电话号码<br />
+                 {% endfor %}
+          
+    </body>
+</html>

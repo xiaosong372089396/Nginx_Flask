@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <meta charset="UTF-8">
+          <!-- 获取显示器的物理行高，进行适配 -->
+         
+          <style type="text/css">
+          .error1{
+              color:red;
+          }
+          </style>
+           <!-- 新 Bootstrap 核心 CSS 文件 -->
+            <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+          <!-- 可选的Bootstrap主题文件(一般不用引入) -->
+            <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+          <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+           <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+          <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+            <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </head>
+        <body>
+   
+     <form class="add" action="/increase/" method="post">
+          <input type="submit" value="增加" />
+     </form> 
+
+        <form class="delete" action="/delete/" method="post">
+           <input type="submit" value="删除" />
+     </form>
+
+
+        <form class="update" action="/update/" method="post">
+           <input type="submit" value="更改" />
+        </form>
+
+        <form class="selete" action="/select/" method="post">
+            <input type="submit" value="查找" />
+        </form>
+
+
+           <table>
+           <thead>
+      <tr>
+          <td>id&nbsp;</td>
+          <td>username&nbsp;</td>
+          <td>password&nbsp;</td>
+          <td>age&nbsp;</td>
+          <td>email&nbsp;&nbsp;&nbsp;</td>
+          <td>IPhone&nbsp;</td>
+      </tr>
+      </thead>
+           <tbody>
+                 {% for user in pages %}
+            <tr>
+               <td>{{user[0]}}&nbsp;</td>
+               <td>{{user[1]}}&nbsp;</td>
+               <td>{{user[2]}}&nbsp;</td>
+               <td>{{user[3]}}&nbsp;</td>
+               <td>{{user[4]}}&nbsp;</td>
+               <td>{{user[5]}}&nbsp;</td>
+                 {% endfor %}
+            </tr>
+           </tbody>
+           </table>
+
+<!--           <input class="btn_Modify" type="button" value="修改信息" /><br />
+           <input class="btn_cancel" type="button" value="取消返回" /><br />
+                  
+           <form id='Modify' action="/Modify/" method="post">
+                 
+           <input type="text" name="username" /><br />
+           <input type="password" name="password"  /><br />
+           <input type="text" name="age" /><br />
+           <input type="text" name="email"  /><br />
+           <input type="text" name="IPhone"  /><br />
+           <input type="submit" value="提交">
+           </form> -->
+
+           <script type="text/javascript" src="/static/jquery-1.8.3.min.js"></script>
+           <script type="text/javascript">
+               $(document).ready(function(){
+                   // 隐藏修改部分 -->
+                   $("#Modify").hide();
+                   // 隐藏btn_cancel 取消返回键  -->
+                   $(".btn_cancel").hide();
+                   // 绑定btn_Modify 修改信息键 -->
+                   $(".btn_Modify").bind('click', function(){
+                       $("#Modify").show();
+                       $(".btn_cancel").show();
+                       $(".btn_Modify").hide();
+                      });
+                   $(".btn_cancel").bind("click",function(){
+                       $("#Modify").hide();
+                       $(".btn_cancel").hide();
+                       $(".btn_Modify").show();
+                    });               
+               });
+           </script>
+       </body>
+</html>

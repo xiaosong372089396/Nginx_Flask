@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{% block title %}{% endblock %}</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../static/css/fullcalendar.css" />
+<link rel="stylesheet" href="../static/css/matrix-style.css" />
+<link rel="stylesheet" href="../static/css/matrix-media.css" />
+<link href="../static/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="../static/css/jquery.gritter.css" />
+<link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+<!-- local css body.css -->
+<link rel="stylesheet" href="../static/css/body.css" />
+<!-- usermanager 
+#<link rel="stylesheet" href="../static/css/user1.css"> -->
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!--
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
+
+<!-- 时间戳 -->
+{% block script %}{% endblock %}
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+  <h1><a href="#">MatAdmin</a></h1>
+</div>
+
+<!-- 账号注册按钮 -->
+
+<!-- <span class="text"></span> -->
+
+<!--close-Header-part-->
+<!--top-Header-menu-->
+<div id="user-nav" class="navbar navbar-inverse">
+
+<!--   <ul class="nav" style="width: auto; margin: 0px;">  -->
+    <li  class="dropdown" id="profile-messages" >
+      <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+<!--         <i class="icon icon-user"></i>  test1 -->
+        <span class="text test1">当前登录：{{session['user']['username']}}</span>
+
+      </a>
+    </li>
+
+<!--     <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">设置</span></a></li> -->
+    <li class="">
+      <a title="" href="/Exit/">
+  <!---      <i class="icon icon-share-alt"> -->
+        </i> 
+          <span class="text">退出</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- 上行，导航栏 -->
+<!--close-top-Header-menu-->
+
+<!--close-top-serch-->
+<!--sidebar-menu-->
+<div id="sidebar">
+  <!-- <a href="#" class="visible-phone">
+    <i class="icon icon-home"></i> 
+      "控制台"
+  </a> -->
+
+  <ul style="display: block;">
+    <li class="active">
+      <a href="/usermanagement/">
+        <span>用户管理</span>
+      </a> 
+    </li>
+
+    <li> 
+      <a href="/assets/">
+        <span>资产管理</span>
+      </a> 
+    </li>
+
+    <li {% block leftlogactive %}{% endblock %}> 
+      <a href="/Loganalysis/">
+        <span>日志分析</span>
+      </a> 
+    </li>
+
+    <li>
+      <a href="#">
+        <span>监控收集</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#">
+        <span>域名统计</span>
+      </a>
+    </li>
+
+    <li class="submenu"> 
+      <a href="#"> 
+        <span>表单</span> 
+      </a>
+
+      <ul>
+        <li>
+          <a href="#">基本表单</a>
+        </li>
+
+        <li>
+          <a href="#">带验证的表单</a>
+        </li>
+
+        <li>
+          <a href="#">带提示的表单</a>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="#">
+        <span>按钮 &amp; 图标</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="#">
+        <span>组件</span>
+      </a>
+    </li>
+
+    <li class="submenu"> 
+      <a href="#">
+        <span>其他</span> 
+      </a>
+      <ul>
+      
+    <li class="submenu"></li> 
+  </ul>
+</div>
+          
+<!--sidebar-menu-->
+<!--main-container-part-->
+<div id="content">
+<!--breadcrumbs-->
+  <div id="content-header">
+    <div id="breadcrumb">
+      <a href="" title="Go to Home" class="tip-bottom">
+        <i class="icon-home">
+        </i> 
+        首页
+      </a>
+    </div>
+    <div id="breadcrum">
+      <a href="" title="Go to Home" class="tip-bottom test2">
+        <i class="icon-home">
+        </i>
+        {% block btn_update %}{% endblock %}
+      </a>
+    </div>
+        <!-- 右侧栏展示内容 -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+                    {% block neirong %}
+                      <tr>
+                          <th>id编号</th>
+                          <th>用户名</th>
+                          <th>密码</th>
+                          <th>年龄</th>
+                          <th>Email</th>
+                          <th>手机</th>
+                          <th>备注</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in pages %}
+                    <tr>
+                        <td>{{user[0]}}</td>
+                        <td>{{user[1]}}</td> 
+                        <td>{{user[2]}}</td>
+                        <td>{{user[3]}}</td>
+                        <td>{{user[4]}}</td>
+                        <td>{{user[5]}}</td>
+                        <td>
+                            {% endfor %}
+                              </td>
+                            {% endblock %}
+
+                  <!-- 账号注册部分 -->
+                  {% block usermanagement %} {% endblock %}
+
+                  <!-- 用户修改部分 -->
+                  {% block Modify %}{% endblock %}
+
+                  <!-- 用户管理删除 -->
+                  {% block user_dele %}{% endblock %}
+
+                  <!--资产修改部分  -->
+                  {% block assets %}{% endblock %}
+
+                  <!--资产删除部分 -->
+                  {% block assets_dele %}{% endblock %}
+
+                  <!--账号注册部分 -->
+                  {% block script1 %}{% endblock %}
+
+              <!--注册账号Ajax -->
+              {% block zhuce %}
+              {% endblock %}
+
+              <!--用户管理修改， 资产新建 -->
+              {% block js %}{% endblock %}
+
+              <!--资产修改 -->
+              {% block assets_update %}{% endblock %}
+      </a>
+    </div>
+  </div>
+</div>
+  </body>
+</html>

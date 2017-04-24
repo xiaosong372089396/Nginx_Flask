@@ -1,0 +1,295 @@
+{% extends 'bodys.html' %}
+{% block title %}用户管理{% endblock%}
+
+{% block btn_update %}
+    <script src="../static/js/jquery.min.js"></script>
+<a  class="list-group-item" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id="btn-update">
+    <span class="glyphicon glyphicon-wrench tubiao2" aria-hidden="true">&nbsp;</span>账号注册</a>
+
+{% endblock %}
+
+{% block options %}
+    <span class="glyphicon glyphicon-user tubiao1" aria-hidden="true">&nbsp;</span>用户管理
+{% endblock %}
+
+
+            {% block neirong %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+                 <thead>
+                     <tr>
+                       <th>id编号</th>
+                       <th>用户名</th>
+                       <th>密码</th>
+                       <th>年龄</th>
+                       <th>Email</th>
+                       <th>手机</th>
+                       <th>操作</th>
+                     </tr>
+                 </thead>
+                 <tbody> 
+
+                
+                          {% for user in pages %}
+                       <tr>
+                             <td>{{user[0]}}</td>
+                             <td>{{user[1]}}</td>
+                             <td>{{user[2]}}</td>
+                             <td>{{user[3]}}</td>
+                             <td>{{user[4]}}</td>
+                             <td>{{user[5]}}</td>
+                             <td>
+
+<!-- 测试 点击修改位置-->
+<a class="btn-warning" data-toggle="modal"  data-target="#exampleModala"  data-id="{{user[0]}}" data-usernamea="{{user[1]}}" data-passworda="{{user[2]}}" data-agea="{{user[3]}}" data-emaila="{{user[4]}}" data-iphonea="{{user[5]}}" id="btn-xiugai">更新</a>
+{# <a class="btn btn-danger" href="/deleteuser/?id={{user[0]}}">删除</a> #}
+<a class="btn-danger" data-toggle="modal" data-target="#delete_user" data-id="{{user[0]}}" id="delete_user">删除</a>
+
+        </div>
+</td>                      
+                           {% endfor %}
+                           {% endblock %}
+
+<!--  账号注册模态框 -->
+{% block usermanagement %}
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+         <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title" id="exampleModalLabel">添加用户</h4>
+               </div>
+               
+               <div class="modal-body">
+                   <form>
+                   <div class="form-group">
+                       <label for="username" class="control-label">用户</label>
+                     <input type="text" class="form-control" id="username" name='username'>
+                   </div>
+
+               <div class="form-group">
+                    <label for="password" class="control-label">密码</label>
+                    <input type="text" class="form-control" id="password" name='password'>
+               </div>
+
+               <div class="form-group">
+                   <label for="age" class="control-label">年龄</label>
+                   <input type="text" class="form-control" id="age" name='age'>
+               </div>
+
+               <div class="form-group">
+                   <label for="email" class="control-label">邮箱</label>
+                   <input type="text" class="form-control" id="email" name='email'>
+               </div>
+
+                <div class="form-group">
+                   <label for="IPhone" class="col-sm-2 control-label">手机</label>
+                   <input type="text" class="form-control" id="iphone" name='iphone'>
+                </div>
+            </form>
+       </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove tubiao3" aria-hidden="true"></span>关闭</button>
+           <button type="button" class="btn btn-primary" id="btn-add"><span class="glyphicon glyphicon-ok tubiao3" aria-hidden="true"></span>添加</button>
+       </div>
+     </div>
+  </div>
+</div>
+                      {% endblock %}
+
+
+
+<!-- 修改部分 Modify the -->
+{% block Modify %}
+<div class="modal fade" id="exampleModala" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="exampleModalLabel">修改用户</h4>
+            </div>
+            
+            <div class="modal-body">
+               <form>
+                   <div class="form-group">
+                       <label for="username" class="control-label">用户</label>
+                       <input type="text" class="form-control" id="usernameb" name='usernamea'>
+                   </div>
+                
+                   <div class="form-group">
+                      <label for="password" class="control-label">密码</label>
+                      <input type="text" class="form-control" id="passwordb" name='passworda'>
+                   </div>
+
+                   <div class="form-group">
+                      <label for="age" class="control-label">年龄</label>
+                      <input type="text" class="form-control" id="ageb" name='agea'>
+                   </div>
+
+                   <div class="form-group">
+                      <label for="email" class="control-label">邮箱</label>
+                      <input type="text" class="form-control" id="emailb" name='emaila'>
+                   </div>
+
+                   <div class="form-group">
+                      <label for="IPhone" class="col-sm-2 control-label">手机</label>
+                      <input type="text" class="form-control" id="iphoneb" name='iphonea'>
+                   </div>
+               </form>
+            </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+                <span class="glyphicon glyphicon-remove tubiao3" aria-hidden="true"></span>关闭
+            </button>
+            <!-- 测试部分 弹出窗口点击修改 -->
+            <button type="button" class="btn btn-primary" id="btn-xiugai1">
+                <span class="glyphicon glyphicon-ok tubiao3" aria-hidden="true">修改
+            </button>
+        </div>
+     </div>
+   </div>
+</div>
+
+                                {% endblock %}
+
+<!-- 用户管理删除 -->
+{% block user_dele %}
+<div class="modal fade" id="delete_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title" id="exampleModalLabel">删除</h4>
+             </div>
+
+             <div class="modal-body">
+                 <form >
+                    <div class="form-group">
+                    <label for="num1" class="control-label">删除ID编号</label>
+                    <input type="text" class="form-control" id="num1" name="num1" disabled="disabled">
+                 </div>
+             </form>
+         </div>
+         <div class="modal-footer">
+             <button type="button" class="btn btn-primary" data-dismiss="modal">
+                 <span class="glyphicon glyphicon-remove tubiao3" aria-hidden="true"></span>关闭
+             </button>
+             <button type="button" class="btn btn-primary" id="deleuser">
+                 <span class="glyphicon glyphicon-ok tubiao3" aria-hidden="true">确认删除
+             </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery('#delete_user').on('show.bs.modal', function (event) {
+        var button = jQuery(event.relatedTarget)
+        var recipient = button.data('whatever')
+        var modal = jQuery(this)
+            modal.find('modal-title').text('删除用户' + recipient)
+            modal.find('modal-body input').val(recipient)
+            modal.find('#num1').val(button.data('id'));
+        });
+            jQuery('#deleuser').on('click', function() {
+                var id = jQuery('#num1').val()
+                    jQuery.post('/usermanagement/deleteuser/', {
+                        'id' : id
+                    }, function(data) {
+                       console.log(data);
+                       if(data['ok']) {
+                        jQuery('#delete_user').modal('hide');
+                        window.location.reload();
+                    } else {
+                        jQuery('#error').text(data['result']);
+                        jQuery('#error').show();
+                    }
+                }, 'json');
+           });
+       });
+</script>
+{% endblock %}
+
+
+<!-- 账号注册 -->
+{% block zhuce %}
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery('#exampleModal').on('show.bs.modal', function (event) {
+         var button = jQuery(event.relatedTarget)
+         var recipient = button.data('whatever')
+         var modal = jQuery(this)
+             modal.find('modal-title').text('New username to ' + recipient)
+             modal.find('modal-body input').val(recipient)
+         });
+            jQuery('#btn-add').on('click', function() {
+                  var username = jQuery('#username').val(),
+                      password = jQuery('#password').val(),
+                      age = jQuery('#age').val(),
+                      email = jQuery('#email').val(),
+                      iphone = jQuery('#iphone').val()
+                      jQuery.post('/usermanagement/adduser/', {
+                               'username' : username,
+                               'password' : password,
+                               'age' : age,
+                               'email' : email,
+                               'iphone' : iphone
+                           }, function(data) {
+                             console.log(data);
+                             if(data['ok']) {
+                                jQuery('#exampleModal').modal('hide');
+                                      window.location.reload();
+                             } else {
+                                jQuery('#error').text(data['result']);
+                                jQuery('#error').show();
+                             }
+                       }, 'json');
+                  });
+             }); 
+</script>
+{% endblock %}
+{% block js %}
+<!-- 点击修改模态框测试 修改 --> 
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery('#exampleModala').on('show.bs.modal', function (event) {
+       var button = jQuery(event.relatedTarget)
+       var recipient = button.data('whatever')
+       var modal = jQuery(this)
+            modal.find('modal-title').text('修改用户' + recipient)
+            modal.find('modal-body input').val(recipient)
+            modal.find('#usernameb').val(button.data('usernamea'));
+            modal.find('#passwordb').val(button.data('passworda'));
+            modal.find('#ageb').val(button.data('agea'));
+            modal.find('#emailb').val(button.data('emaila'));
+            modal.find('#iphoneb').val(button.data('iphonea'));
+        });
+            jQuery('#btn-xiugai1').on('click', function() {
+                  var   username = jQuery('#usernameb').val(),
+                        password = jQuery('#passwordb').val(),
+                        age = jQuery('#ageb').val(),
+                        email = jQuery('#emailb').val(),
+                        iphone = jQuery('#iphoneb').val()
+                        jQuery.post('/usermanagement/updateone/', {
+                             'username' : username,
+                             'password' : password,
+                             'age' : age,
+                             'email' : email,
+                             'iphone' : iphone
+                        }, function(data) {
+                           console.log(data);
+                           console.log('iphonea')
+                           if(data['ok']) {
+                               jQuery('#exampleModala').modal('hide');
+                               window.location.reload();
+                           } else {
+                               jQuery('#error').text(data['result']);
+                               jQuery('#error').show();
+                           }
+                       }, 'json');
+                   });
+               });
+          </script>  
+{% endblock %}

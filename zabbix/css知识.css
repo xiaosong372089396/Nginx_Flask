@@ -1,0 +1,1032 @@
+9, 用CSS给网页装潢- 知识预备：
+
+1，CSS简介：
+2，使用CSS样式的3种方法：
+3，CSS语法：
+
+直白点说：
+改变文字大小，颜色，字体
+改变元素的性质
+改变元素的位置
+给元素加背景颜色或图片
+等等。。。
+
+
+2，使用CSS样式的3种方法：
+我们要写CSS代码，那么第一个问题，我们在哪里写呢？？？
+
+1> 外部样式：
+	<link rel="stylesheet" type="text/css" href="css文件名"/>
+	<link rel="stylesheet" type="text/css" href="demo.css">
+
+	demo.css
+	p {
+		font-size:40px;
+		color:red;
+	}
+	<p>段落</p>
+
+
+2> 内页样式：
+	直接写在HTML文件的头部里面
+	<style type="text/css">
+	</style>
+
+	<style type="text/css">
+    p {
+    	font-size:40px;
+    	color:red;
+    }
+	</style>
+	<p>段落</p>
+
+3> 行内样式：
+<p style="color:red;">小宋</p>
+<p style="font-size:40px;color:red;">段落</p>
+
+3. CSS基础语法（语法简单的理解就是规则）
+1) CSS规则由两个主要的部分构成：
+	1，选择器：
+	2，一条或多条声明：
+
+选择器：要给元素装潢加样式（首先得选中需要装潢的元素）
+声明： 声明由一个属性和一个值组成
+		属性是您希望设置的样式属性。每个属性有一个值，属性和值被冒号分开，
+		如果要定义不止一个声明，则需要用分号将每个声明分开，养成良好习惯，
+		就算一个声明我们也加上分号。
+
+
+选择器{属性：值：}
+使用空格以及回车让CSS更可读：
+选择器 {
+	属性：值;
+}
+
+2>  小试牛刀：
+	选择器有一种最简单的写法直接写上你要选中的元素！
+
+	p {
+		color:red;   该行声明将颜色设置为红
+		font-size:30px;  该行声明将字体大小设置为30px
+	}
+	查看效果
+
+
+3> CSS加注释：
+	/*注释内容*/
+
+
+
+
+#################
+10 用CSS给网页装潢 - 常用选择器：
+
+1> 简单选择器：
+2> 复杂选择器：
+3> 伪类选择器：
+4> 通配符选择器：
+
+
+
+1， 选择器：
+我们在学习选择器之前认识几条声明（或者可以称作样式）
+font-size:13px;
+color:red;
+background:green;
+
+简单选择器：
+1> id 选择器：
+方法： 通过给标签加id属性， 并给与该属性一个值(这个值我们可以称为id名称)
+#id 名称 {
+
+}
+
+<style type="text/css">
+#div1 {
+	font-size:20px;
+}
+</style>
+<div id="div1">div容器</div>
+
+	id属性的值是我们自己定义的，定义值得过我们可以称作给id命名！
+	命名需要遵循一定规则我建议你用一下写法：
+
+	（1）只采用字符[a-zA-Z0-9],连字号(-)和下划线(_)区分大小写
+	 (2) 以字母开头，避免纯数字，避免数字开头，以保证兼容，以数字开始的类名
+	 	id名仅在IE6IE7IE8下被识别，而其他浏览器下则不识别（忽略该规则）
+	（3）一个id名只能在一个页面中出现一次，不可以两个标签拥有同样的id名
+
+
+2> 类(class)选择器：
+方法：给标签加class属性并给与该属性一个值（这个值我们可以称为类名）
+.类型 {
+
+}
+class 属性的值是我们自己定义的，定义值得过程我们可以称作给类(class)命名
+命名需要遵循一定规则（我建议你用以下写法）：
+1，只采用字符[a-zA-Z0-9],连字号(.)和下划线(_)区分大小写
+2，以字母开头，避免纯数字，避免数字开头，以保障兼容，以数字开始的类名
+	id名仅在IE6、IE7、IE8下被识别，而其他浏览器下则不识别（忽略该规则）
+3, 类名的好处是可以多次使用方便给标签归类！
+4，一个标签可以拥有多个类名
+
+总结：id名与类名的命名最好具有语义！
+
+<style type="text/css">
+.red {
+	color:red;
+}
+</style>
+
+<div class="red">div容器</div>
+<div class="red">div容器</div>
+
+
+3> 标签选择器：
+直接将html标签名作为选择器：
+div {
+	color:red;
+}
+p {
+	font-size:30px;
+}
+
+这种标签打击面太广，没有id,class那么精确
+
+
+4> 复杂选择器：
+1, 交集选择器：
+一个标签选择器后边让一个类选择器或者一个ID选择器，中间不能有空格，
+他要求必须是属于某一个标签的，并且声明了类选择器或ID选择器：
+
+例如：
+div.mycolor{...}  类别为mycolor的层才会被选中，应用该样式
+div#mycolor{...}  id 为mydiv的层才会被选中，应用该样式
+
+<style type="text/css">
+p.red {
+	font-size:30px;
+}
+
+div#div1 {
+	font-size:40px;
+}
+</style>
+<p class="red size=40">段落</p>
+
+既要符合标签名，也要符合某个类名，id名，交集
+
+2，并集选择器：
+	就是多个选择器以逗号相连，只要满足求中之一它都会被选中！
+	上面学的选择器都可以被写入并集选择器
+	div,p,h1,div.mycolor,div#mydiv {...}
+<style type="text/css">
+div,p {
+	color:red;
+	font-size:30px;
+}
+</style>
+div和p 都会选中：
+
+
+div,p,li.li1{
+	color:red;
+	font-size:30px;
+}
+
+<ul>
+	<li class="li1">列表</li>
+	<li>列表</li>
+	<li class="li1">列表</li>
+</ul>
+
+交集选择器：
+
+
+3, 后代选择器{包含选择器}
+是以空格相连的多个选择器，外层的选择器写在内层的选择器前面！
+
+根据元素的后代关系来作为选择的筛选条件！
+div h1, first, span, firstletor{...}
+
+</div>
+
+div p span{
+	font-size:40px;
+}
+
+<div>
+	<p>是div里面的p</p>
+	<p>我是div里面的p<span>我是div后代</span></p>
+</div>
+
+div下级的p生效：
+div下的p下的span生效：
+
+
+
+伪类选择器：
+a:hover {
+	color:red;
+}
+
+状态
+a标签的状态
+<a href="http://www.baidu.com" target="_blank">小宋</a>
+
+通配符选择器：
+它是一种特俗的选择器，他用符号表示，它可以定义文档中所有元素对象的样式!
+
+* {
+	font-size:40px;
+}
+
+
+################
+11, 用CSS给网页装潢-构造文本
+1，文本缩进
+2，文本对齐
+3，文本行高
+4，字间隔(单词)
+5，字母间隔
+6，文字下划线
+7，字体
+8，字体风格
+9，字体大小
+10，文本颜色
+11，文本加粗
+12，关于样式
+
+
+CSS对文本处理特别方便，这一节课我们就来学习一下CSS常用对文本的设置操作！
+
+CSS长度值得单位：
+% -- 百分比
+in -- 寸
+cn -- 厘米
+mn -- 毫米
+pt -- point 大约1/72寸：
+pc -- pica, 大约6pt, 1/6寸：
+px -- 屏幕的一个像素点：
+en -- 元素的font-size:
+
+
+1> 文本缩进：
+text-indent: 值;
+值为数字，最常用的数值单位是px(像素)，也可以直接是百分比！
+
+text-indent:100px;
+text-indent:10%;
+<style type="text/css">
+p {
+	text-indent:1px;
+}
+<p>我是一个段落</p>
+
+1px好比一点.的距离：
+
+2> 文本对齐：
+text-align: 对其方式：
+可以的值为：left 左对齐、center  居中、night  右、
+<style type="text/css">
+p {
+	text-align:left;   /*左对其 默认就是左*/
+}
+<p>我是一个段落</p>
+
+3> 文本行亮    #行高
+line-height:值;
+line-height:23px;
+line-height:120%;
+默认：normal
+
+4>字间隔(单词)
+word-spacing:10px;
+默认值：normal
+字与字之间的间隔：
+
+
+
+5> 字母间隔
+letter-spacing:5px;
+默认值：normal
+
+
+6> 文字下划线：
+text-decoration:none;
+值：underline或者none等， 常用值就这两个
+
+
+7> 字体
+font-family:微软雅黑;
+font-family:宋体;  默认就是宋体
+多个字体用逗号隔开：
+font-family:"Times New Roman",Georgia,Serif;
+font-family:字体1，字体2：
+
+
+8> 字体风格
+font-style:值;
+	normal
+	italic
+	oblique
+
+9> 字体大小
+font-size:数值;
+	数值单位为px
+
+10> 文本颜色：
+color:颜色值：
+颜色值可以为一些简单的英语单词
+color:red;
+
+实际工作中用的比较多的私颜色代码
+color:#111111;
+也可以借助Adobe Photohop CS3软件来抓取图片颜色
+
+
+11> 文本加粗
+font-weight:值;
+
+常用值：
+normal
+bold   #加粗
+
+
+12> 关于样式继承
+样式的继承问题！
+
+body {
+	color:red;
+}
+
+<body>
+	<p> hello world </p>
+</body>
+
+因为p标签在body标签里面，所有它继承也会生效：
+
+div p {
+	color:black;
+}
+<div>
+	<p>
+		hello world
+	</p>
+</div>
+
+或：
+#div1 p{
+
+}
+
+<div id="div1">
+	hello
+	<p>
+		hello world
+	</p>
+</div>
+
+
+
+######################
+12, 用CSS给网页装潢- 构造块级元素
+1，宽高
+2，背景
+3，边框
+
+1， 宽高：
+width: 数值;
+height: 数值;
+也可用百分比！
+
+长高的设置不会被后代继承:
+2, 背景
+(1),背景颜色
+	background-color:颜色值;
+	元素的背景颜色默认为transparent   #透明
+	background-color不会被迭代继承
+
+(2),背景图片
+	使用background-image属性默认值为none表示背景上没有放置任何图像
+	如果需要设置一个背景图像，必须为这个属性设置一个url值
+	background-image:url(bg-gif);
+	主题图片的位置引入方法：
+
+	背景图片重复的问题
+	使用background-repeat来解决，可以的值：repeal-x, repeat-y, no-repeat
+	                                       横着平铺， 竖着平铺， 不平铺
+<head>
+	<link rel="stylesheet" type="text/css" href="style/demo.css" />
+</head>
+
+#div1 {
+	width:900px;
+	height:1000px;
+	background-color:#66FF99;
+	background-image:url(../images/1.jpg);
+	background-repeat:no-repeat;    /* 不让背景图片重复*/
+}
+#div1 p {
+
+}
+
+(3) 背景图片的位置
+使用background-position来设置    x、y轴 
+1> 可以使用一些关键字： top, bottom, left, right和center通常，这些关键字
+	会成对出现：
+	top left
+	top center   #居中
+	top right    #右
+	center center # 中间居中
+	center right  
+	center left
+	bottom left  #
+	bottom center
+	bottom right
+
+/* 
+    1) background-position:center left;
+   使用关键字：top、bottom、left、right、和center时，表示
+   第一个值是y轴（垂直方向）， 第二个值是x轴（水平方向）
+
+	2) background-position:50% 3%;
+	使用具体的数字，例如百分比的时候
+	第一个值  值得是x轴(水平方向)，第二个是y轴（垂直方向偏移）
+	background-position:50% 3%;
+
+*/
+
+background-position:50px top;
+background-position:50px bottom;  #下面
+
+
+2> 也可以用百分比
+background:50% 50%;
+	第一个表示平第二个表示垂直
+
+3>当然更可以用数值，以px单位
+	background:40px  10px;
+	第一个表示水平第二个表示垂直
+
+4>也可以混用！
+
+
+
+背景关联：
+background-attachment:fixed
+
+(3)总结写法：
+background: #00FF00 url(bg.gif) no-repeal fixed center left;
+
+
+3, 边框：
+border: 1px solid #ccc;
+
+dashed 表示虚线：
+border-left:none;
+border-right:none;
+
+body {
+	background-image:url(../image/2.jpg);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+}
+
+
+background:#66FF99 url(../images/1.jpg) no-repeat 50px bottom;
+/*background: 颜色值  图片的地址  图片是否平铺  水平偏移值， 垂直偏移值 */
+
+ /* background:#cccccc;
+ 不需要的设置选项可以不写
+*/
+
+
+
+###################
+12, 用CSS给网页装潢-构造块级元素
+1> 宽高
+2> 背景
+3> 边框
+
+CSS对块级元素的处理也是相当强大，使用CSS3中新增功能我们可以对元素加阴影，
+多背景，圆角等绚丽效果，由于兼容性问题，CSS3的这些新功能我们流道后面再讲
+这一届来看一下各种浏览器支持的功能！
+
+1， 宽高：
+	width: 数值：宽度
+	height: 数值： 高度
+	也可用百分比！
+	长高的设置不会被后代继承
+	<style type="text/css">
+	#div1 {
+		width:200px;
+		height:200px;
+		background-color:66PP99;
+	}
+	<div id="div1">我是div容器</div>
+
+2，背景
+背景颜色：
+	bacjground-color:颜色值：
+	元素的背景颜色默认为transparent
+	background-color不会被后代继承
+
+3, 背景图片：
+使用background-image属性默认值为none表示背景上没有放置任何图像
+如果需要设置一个背景图片，必须为这个属性设置一个url值
+background-image:url(bg-gif);
+<style type="text/css">
+#div1 {
+	width:440px;
+	height:200px;
+	background-color:#66PP99;
+	background-image:url(../images/1.jpg);
+	background-repeat:no-repeat;
+    /*
+	  1，	background-position:center left;
+		使用关键字： top、bottom、left、right和center时，
+		表示第一个值是y轴，（垂直方向），第二个值是x轴（水平方向）
+
+	  2，   background-position:50%, %3;
+	   		使用具体的数字，例如百分比的时候,或者像素(px单位)
+	   		第一个值，值是x轴（水平方向），第二个轴y轴（垂直偏移）
+
+      */
+ 			background-position:50px 3px;
+
+}
+#div1 p{
+
+}
+<div id=#div1> 我是一个容器</div>
+	<p>我是一个p段落</p>
+	<img src="images/1.jpg" />
+注意图片的位置引入方法：
+背景图片重复的问题：
+使用background-repeat来解决，可以的值：repeat-x, repeat-y, no-repeat
+
+<link rel="stylesheet" type="text/css" href="../style/demo.css" />
+
+
+
+4，背景关联：
+background-attachment:fixed
+body {
+	background-image:url(../images/2.jpg);
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+}
+
+
+(3),总结写法：
+background: #00FF00 url(bg.gif)no-repeat fixed center left;
+background:#66FF99 url(../images/1.jpg) no-repeat 50px bottom;
+/*  
+	background:颜色值  图片地址 图片是否平铺：水平偏移值 垂直偏移值;
+	background:#ccccc;
+	不需要的设置可以不写
+ */
+
+
+5, 边框：
+border:1px solid #ccc;
+
+dashed 表示虚线：
+solid  表示实线：
+border-left:none;  左
+border-right:none; 右
+border-top:none;   上
+border-bottom:none; 下
+none;是不加边框：
+分开设置
+最后来讨论一个有趣的问题：
+后代元素长度大于祖辈元素的大小时候的处理方法：
+overflow:;
+	可能的值：
+		visible: 默认，内容不会被修剪，会呈现现在元素框之外
+		hidden: 超出的内容会被修剪掉，直接不现实
+		scroll: 超出内容会被修剪，但浏览器会显示滚动条以便查看其余内容
+		auto: 如果内容被超出，则浏览器会显示滚动条以便查看其余内容
+		inherit: 规定应该从父元素继承overflow属性的值
+
+
+#div1 {
+	width:200px;
+	height:200px;
+	background:#CCPP66;
+	border:1px solid #000000;
+}
+
+<div id="div1">
+
+
+#######################################
+13, 用CSS给网页装潢- 盒模型概念：
+
+1> 盒模型的概念：
+上节课遗漏知识：
+元素性质相互转化：
+display:block;
+display:inline;    #内联
+display:inline-block;  #不独占一行了，在一排了 
+display:none;
+
+1,盒模型概念：
+
+内边距： 边框和内容区之间的距离，通过padding属性设置
+外边距： 元素边框的外围空白区域是外边距，通过margin属性设置
+内边距设置方法：
+padding-top: 10px;
+padding-right: 10px;
+padding-bottom:10px;
+padding-left: 10px;
+
+简些： padding:上右左下：
+padding: 10px 20px 40px 30px;
+padding:10px 20px
+	padding:10px;
+	padding:上下  左右
+	padding:上 右 下 左
+
+
+外边距设置方法：
+margin:;用法同上！
+
+body {
+	border:1px solid #cccccc;
+	margin:0px;    #外边距都没有了
+	padding:0px;
+	display:inline-block;   /* div里面元素显示在一行里 */
+}
+
+#################################
+14, 用CSS给网页装潢-浮动：
+
+1> 浮动：
+
+1，可以看出，即使div1的宽度很小，页面中一行可以容下div1和div2, 
+   div2也不会排在div1后边，因为div元素是块级元素，独占一行的
+
+2，如何在一行显示多个div元素
+	display:inline-block;
+
+	默认排序就是标准流：
+3，显然默认的标准流已经无法满足需求，这就要用到浮动，浮动可以理解为让某个div
+   元素(或者其他块级元素)脱离标准流，浮动在标准流之上。
+
+4，例如：假设上图的div2浮动，那么它将脱离标准流，但div1,div3,div4
+	仍然在标准流中，所以div3会自动向上移动，占据div2的位置，重新组成一个流
+
+	从图中可以看出，由于div2设置浮动，因此它不在属于标准流，div3自动上移顶替div2
+	的位置，div1,div3,div4一次排序，称为一个新的流，又因为浮动
+	是浮动在标准流之上的，因此div2挡住了一部分div3,div3看起来变矮了
+
+
+5，浮动的设置方法：
+	float:left;   左浮动
+	float:right;  右浮动
+
+6, 我不想标准流中的元素收到浮动的影响咋办？
+	clear:both:
+		none:默认值，允许两边都可以有浮动对象
+		left: 不允许左边有浮动对象
+		reight: 不允许右边有浮动对象
+		both: 不允许有浮动对象
+
+7，如果连续多个元素设置浮动呢？
+	结论：被设置浮动的元素会组成一个流，并且会横着紧挨着排队，
+	直到父元素的宽度不够才会换一行排列
+
+
+
+################################
+15，相对定位和绝对定位：
+
+1> 相对定位 
+2> 绝对定位
+3> 固定定位
+4> 重叠元素的堆叠顺序设置
+
+导语：
+使用相对定位与绝对等功能可以对页面元素进行更灵活的定位！
+
+1，相对定位
+position:relative;
+
+left;    左
+right;   右
+top:;    上
+bottom:; 下
+
+1，为元素设置相对定位之后，元素依然会占据原来的空间，依然在标准流中 
+position:relative;
+	相对于原来的位置进行定位：或者（偏移）
+	left与right也只能用一个
+	top与bottom也只能用一个
+p {
+    width:100px;
+    height:100px;
+    background:#PPCC00;
+    position:relative;
+    left:20px;
+    top:30px; 
+}
+
+2，绝对定位：  #整个页面的距离：
+	position:absolute;
+	left:;
+	right:;
+	top:;
+	bottom:;
+p {
+	width:100px;
+	height:100px;
+	background:#PPCC00;
+	position:absolute;
+	left:20px;
+	top:30px;
+
+}
+
+为元素设置绝对定位之后，元素不会占据原来的空间，脱离了原来的队伍！
+
+3， 固定定位  ， #定位的元素，拖拽不动，而是别的元素进行脱离 IE6不兼容
+	position:fixed;
+	left;
+	right;
+	top;
+	bottom;
+	相对于浏览器的窗口进行定位：
+
+
+
+4，重叠元素的堆叠顺序设置：
+使用z-index::对设置了相对或绝对火固定定位的元素进行堆叠顺序的设置，设置的数值
+越大即堆叠在越上层，该属性可以是负值
+
+p {
+	width:100px;
+	height:100px;
+	background:#PPCC00;
+	position:relative;
+	left:20px;
+	top:30px;
+	z-index:100;   /*值越大，越在上层显示  */
+
+}
+
+
+
+###########################################
+16， 构造列表：
+1，构造列表：
+
+
+列表对于网页表现来说非常重要，我们看到网页元素很多都是通过列表展现的！
+
+1，构造列表：
+将ul或ol设置为：  去掉前面小点
+list-style:none;
+剩余的我们自己构造
+
+<style type="text/css">
+ul.list {
+	list-style:none;
+	background:#F8F8F8;  /* 背景颜色 */
+	width:130px;       /* ul宽加上限制  */
+	margin:0px;        /* 去掉外边距 */
+	padding:0px 20px;       /* 去掉内边距 */
+	border:1px solid #BBBBBB;
+}
+
+ul.list li {
+	height:31px;
+	border-bottom:1px solid #dedede;   /* 字体下面下划线 */
+	width:130px;     /* 线的长度 */
+	line-height:31px;    /* 字的行高  行高和字的行高设置一致，能实现字体的居中*/
+	font-family:微软雅黑;  /* 设置字体样式 */
+	color:#3c3c3c;        /* 字体颜色 */
+	font-size:14px;       /* 字体大小 */
+	text-indent:35px;     /* 字体缩进 */
+}
+
+ul.list li.li-1 {
+	background:url(images/icon_1.png) 0px center no-repeat;
+	/* y轴0px, center 居中 ， no-repeat 去重 */
+}
+
+ul.list li.li-2 {
+	background:url(images/icon_2.png) 0px center no-repeat;
+	/* y轴0px, center 居中 ， no-repeat 去重 */
+}
+</style>
+<body>
+	<ul class="list">
+		<li class="li-1">服装</li>
+		<li class="li-2">鞋包</li>
+	</ul>
+</body>
+
+
+##########################################
+17， 布局初探：
+
+
+1，元素都可以看出是一个盒子，这些盒子很多都有自己默认的内边距或
+	外边距，并且每个浏览器默认的距离还有可能不太一样，这样对于我们页面布局
+	或者具体的细节定位产生影响，我应该怎么办？
+
+抽象来看：
+
+      头部：
+左侧       右侧主体
+
+      底部：
+
+
+2，固定浮动布局：
+固定浮动布局就是固定的值将元素的长度设置为固定不变，然后配合浮动的技术实现整个
+页面布局，
+	网页的主要内容一般都是我们浏览器的中间位置展示的，固定浮动布局会将中间的
+	内容整体长度使用固定的值定死，因为是固定的死的所以中间主要内容占用浏览器的
+	长度空间是有讲究的，这个需要我们的用户屏幕分辨率对应起来，不要超过大多数的
+	平米分辨率的长度。
+
+
+	知识要点： 1，块级元素怎么相对于父元素居中？
+
+
+元素需要设置长度，元素左右的外边距设置为auto即可！
+2，元素都可以看成一个盒子，这些盒子很多都有一个自己默认的内边距或者外边距，
+   并且每个浏览器默认的距离还有可能不太一样，这样对于我们页面布局或者具体
+   细节的定位产生影响，那么我们应该怎么办？
+
+
+<style type="text/css">
+body, ul, li, img {
+	margin:0px;
+	padding:0px;
+}
+
+#header {
+	width:860px;
+	height:100px;
+	background:pink;
+	margin-left:auto;   /* 居中 */
+	margin-right:auto;
+}
+#left {
+	width:200px;
+	height:400px;
+	background:green;
+	float:left;
+}
+
+#right {
+	width:660px;
+	height:400px;
+	background:blue;
+	float:left;
+}
+
+#bottom {
+	width:860px;
+	height:100px;
+	background:orange;
+	clear:both;
+}
+
+#main {
+	width:860px;
+	margin:0px auto;
+}
+</style>
+<body>
+<div id="header">头部</div>
+<div id="main">
+	<div id="left">左侧主体</div>
+	<div id="right">右侧</div>
+	<div id="bottom">底部</div>
+</div>
+</body>
+</html>
+
+###边距
+margin-left: 10px; 左
+margin-top: 10px;  上
+margin-bottom: 10px;  下
+clear:both;   清楚，在左右两侧不允许浮动元素
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

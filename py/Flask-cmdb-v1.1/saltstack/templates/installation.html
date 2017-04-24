@@ -1,0 +1,83 @@
+{% extends 'bodys.html' %}
+{% block title %}部署安装{% endblock %}
+{% block link %}
+<link rel="stylesheet" type="text/css" href="../static/css/sty1.css" >
+{% endblock %}
+
+{% block options %}
+<h4 class="page-header youcebianju">Saltstack API集成</h4>
+<div class="row placeholders">
+    <div class="col-md-1">
+    </div>
+</div>
+{% endblock %}
+
+ {% block neirong %}
+<form class="form-horizontal" action="/saltstack/installation/" method="post">
+  <div class="form-group">
+        <label  class="col-sm-2 control-label">服务器IP</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control biankuangjuli_ip"  name="ip" placeholder="192.168.10.1" required autofocus/>
+        </div>
+  </div>
+
+<div class="form-group">
+       <label  class="col-sm-2 control-label biankuangjuli_cmd">Module</label>
+       <div class="col-sm-2">
+           <select class="form-control biankuangjuli_cmd_kuang" required autofocus  />
+                            <option selected = "selected" value="STATE" >STATE</option>
+           </select>
+       </div>
+</div>
+
+<div class="form-group">
+       <label  class="col-sm-2 control-label biankuangjuli_fun">Function</label>
+       <div class="col-sm-2">
+           <select class="form-control biankuangjuli_fun_fun" required autofocus  name="Option" />
+                            <option selected = "selected" value="cmd.run">cmd.run</option>
+                            <option value="state.sls">state.sls</option>
+           </select>
+       </div>
+</div>
+
+<div class="form-group">
+       <label class="col-sm-2 control-label biankuangjuli_arg">*arg</label>
+       <div class="col-sm-2">
+           <input type="text" class="form-control biankuangjuli_arg_arg" name="arg" placeholder="arg" required autofocus />
+       </div>
+</div>
+
+
+<div class="form-group">
+       <label class="col-sm-2 control-label biankuangjuli_exec">Execute</label>
+       <div class="col-sm-2">
+           <button type="submit" class="btn btn-info biankuangjuli_exec_exec">执行</button>
+       </div>
+</div>
+</form>
+
+<!-- 测试执行命令地区，  后期删掉 -->
+<div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover">
+          <thead>
+             <tr>
+                 {% for i in Value %}
+                 <th>Result</th>
+             </tr>
+          </thead>
+          </tbody>
+              <tr>
+
+                  <td>{{ i }}</td>
+              </tr>
+                   {% endfor %}
+</table>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+</script>
+{% endblock %}
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <input id="bt1" type="button" value="隐藏" />
+        <input class="bt2_class" type="button" value="显示" />
+        <input type="button" value="测试" />
+        <p id="cxt">
+        dfsfsdfsdfsdfsdfsd
+    fsdfsdfsdfsdfsdfsd
+    fsdfsdfsdfsdfsdfsdfsd
+        </p>
+        <script type="text/javascript" src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3">
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#bt1').bind('click', function(){
+                    $('#cxt').hide(5000);
+                });
+                $('.bt2_class').bind('click', function(){
+                    $('#cxt').show();
+                });
+            });
+        </script>
+    </body>
+</html>
+
+

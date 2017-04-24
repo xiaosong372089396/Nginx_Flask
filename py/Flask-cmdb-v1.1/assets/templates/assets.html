@@ -1,0 +1,594 @@
+{% extends 'bodys.html' %}
+{% block title %}资产管理{% endblock %}
+
+<!-- 测试替换按钮 -->
+{% block options %}
+      <script src="../static/js/jquery-1.8.3.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="../static/css/style_juli.css" />
+      <link rel="stylesheet" type="text/css" href="../static/css/sty_color.css" />
+      <span class="glyphicon glyphicon-blackboard tubiao1" aria-hidden="true">&nbsp;</span>资产管理
+{% endblock %}
+
+{% block btn_update %}
+<!-- 新建， 查询按钮-->
+<a class="list-group-item" data-toggle="modal" data-target="#create-dialog" data-whatever="@mdo">
+    <span class="glyphicon glyphicon-send tubiao2" aria-hidden="true">&nbsp;</span>新建主机</a>
+{% endblock %}
+
+       <!-- 右侧栏展示内容 youcebianju-->
+        {% block neirong %}
+ <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+
+        <!-- 这里是 资产查询输入框和 查找按钮 为了保持在head顶部 所以写这里了 -->
+            <form action="/assets/select/" method="post" class="form-inline">
+                <div class="form-group"/>
+                    <div class="col-xs-2">
+                        <input type="text"  class="form-control"  name="user"  placeholder="请输入：主机名查询" /><br />
+                 </div>
+                        <input type="submit" class="btn btn-default assets_select" value="查询"/>
+             </form>
+        <!-- 查找输入框和查找按钮结束 -->
+
+                <th>id编号</th>
+                <th>SN</th>
+                <th>IP</th>
+                <th>主机名</th>
+                <th>机房</th>
+                <th>业务</th>
+                <th>使用者</th>
+                <th>cpu</th>
+                <th>ram</th>
+                <th>disk</th>
+                <th>操作系统</th> 
+                <th>型号</th>  
+                <th>采购时间</th> 
+                <th>厂商</th> 
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+                            {% for asset in assets %} 
+                   <tr>
+                              <td>{{asset[0]}}</td>
+                              <td>{{asset[1]}}</td>
+                              <td>{{asset[2]}}</td>
+                              <td>{{asset[3]}}</td>
+                              <td>{{asset[4]}}</td>
+                              <td>{{asset[5]}}</td>
+                              <td>{{asset[6]}}</td>
+                              <td>{{asset[7]}}</td>
+                              <td>{{asset[8]}}</td>
+                              <td>{{asset[9]}}</td>
+                              <td>{{asset[10]}}</td>
+                              <td>{{asset[11]}}</td>
+                              <td>{{asset[12]}}</td>
+                              <td>{{asset[13]}}</td>
+                              <td>{{asset[14]}}</td>
+                        <td>
+<!-- {#id,sn,ip,hostname,machine_room_id,bussiness,admin,cpu,ram,disk,os,model,purchase_date,vendor,status #} -->
+<!-- 测试 点击修改位置--> 
+<a class="btn-info" data-toggle="modal" data-target="#cat_asset" data-id="{{asset[0]}}" data-ip="{{asset[2]}}">查看</a>
+<a class=" btn-warning" data-toggle="modal"  data-target="#exampleModalb" data-id="{{asset[0]}}" data-sn="{{asset[1]}}" data-ip="{{asset[2]}}" data-hostname="{{asset[3]}}" data-machine_room="{{asset[4]}}" data-bussiness="{{asset[5]}}" data-admin="{{asset[6]}}" data-cpu="{{asset[7]}}" data-ram="{{asset[8]}}" data-disk="{{asset[9]}}" data-os="{{asset[10]}}" data-model="{{asset[11]}}" data-purchase_date="{{asset[12]}}" data-vendor="{{asset[13]}}" data-statusb="{{asset[14]}}" id="btn-xiugai">更新</a> 
+<!-- {# <a class="btn btn-danger" href="/deleteasset/?id={{user[0]}}">删除</a> #} -->
+<a class=" btn-danger" data-toggle="modal" data-target="#delete_asset" data-id="{{asset[0]}}">删除</a>
+        </div>
+    </td>
+</tr>
+{% endfor %}
+    </tbody>
+    <tfoot></tfoot> 
+</table>
+ {#<div class="row">#}
+    <div class="col-md-3">
+        <div class="pagination-num">第{{pageNum}} 页，共 {{maxPageNum}} 页</div>
+    </div>
+<div class="col-md-9">
+<nav class="nav-page">
+    <ul class="pagination">
+    <li 
+    {% if pageNum <= 1 %}
+    class="disabled"
+    {% endif %}
+    >
+<!--  第一个assets是Blueprint前缀， 第二个是函数名称  -->
+        <a href="{{url_for( 'assets.asset', pageNum=pageNum - 1)}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    {% for page in range(startPageNum, endPageNum + 1)%}
+    <li
+    {% if page == pageNum %}
+    class="active"
+    {% endif %}
+    ><a href="{{url_for( 'assets.asset', pageNum=page)}}">{{page}}</a></li>
+    {% endfor %}
+    <li
+    
+     {% if pageNum >= maxPageNum %}
+     class="disabled"
+     {% endif %}
+     >
+
+        <a href="{{url_for( 'assets.asset', pageNum=pageNum + 1)}}" aria-label="Next">
+
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+<ul>
+</nav>
+</div> 
+</div>
+<!-- 分页pageing -->
+ {% endblock %}
+
+<!-- 资产新建 -->
+{% block usermanagement %}
+<div class="modal fade" id="create-dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+         <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   <h4 class="modal-title" id="exampleModalLabel">添加</h4>
+               </div>
+               
+               <!-- 滚动条属性 -->
+          <div class="modal-body xialatiao">
+                   <form >
+                   <div class="form-group">
+                       <label for="sn" class="control-label">SN编号</label>
+                     <input type="text" class="form-control" id="sn">
+         </div>
+
+         <div class="form-group">
+                    <label for="ip" class="control-label">IP地址</label>
+                    <input type="text" class="form-control" id="ip">
+         </div>
+         <div class="form-group">
+                   <label for="hostname" class="control-label">主机名</label>
+                   <input type="text" class="form-control" id="hostname">
+         </div>
+
+         <div class="form-group">
+             <label for="machine_room" class="control-label">机房</label>
+             <input type="text" class="form-control" id="machine_room">
+         </div>
+
+         <div class="form-group">
+             <label for="bussiness" class="control-label">业务</label>
+             <input type="text" class="form-control" id="bussiness">
+         </div>
+
+         <div class="form-group">
+             <label for="admin" class="control-label">使用者</label>
+             <input type="text" class="form-control" id="admin">
+         </div>
+
+         <div class="form-group">             
+            <label for="cpu" class="control-label">CPU</label>             
+            <input type="text" class="form-control" id="cpu">
+         </div>
+
+         <div class="form-group">            
+            <label for="ram" class="control-label">内存</label> 
+            <input type="text" class="form-control" id="ram">
+         </div>
+
+         <div class="form-group">
+            <label for="disk" class="control-label">硬盘</label>
+            <input type="text" class="form-control" id="disk">
+         </div>
+
+         <div class="form-group">
+            <label for="os" class="control-label">操作系统</label>
+            <input type="text" class="form-control" id="os">
+         </div>
+            
+         <div class="form-group">
+            <label for="model" class="control-label">型号</label>
+            <input type="text" class="form-control" id="model">
+         </div>
+
+         <div class="form-group">
+           <label for="purchase_date" class="control-label">采购时间</label> 
+           <input type="text" class="form-control" id="purchase_date">
+         </div>
+
+         <div class="form-group">
+            <label for="vendor" class="control-label">厂商</label>
+            <input type="text" class="form-control" id="vendor">
+        </div>
+
+        <div class="form-group">
+            <label for="statusa" class="control-label">状态</label>
+            <input type="text" class="form-control" id="statusa">
+        </div>
+    </form>
+ </div> 
+ <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-remove tubiao3" aria-hidden="true"></span>关闭</button>
+    <button type="button" class="btn btn-primary" id="btn-asset"><span class="glyphicon glyphicon-ok tubiao3" aria-hidden="true"></span>确定</button>
+       </div>
+     </div>
+  </div>
+</div>
+
+{# echarts #}
+<div class="modal fade" id="cat_asset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="exampleModalLabel">使用资源统计</h4>
+          </div>
+          <div class="modal-body">  <!--500 280 -->
+              <div id="host_detail" style="width: 500px; height: 280px;"></div>
+          </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div> 
+         </div>
+     </div>
+  </div>
+{% endblock %}
+
+
+<!-- 资产修改部分 -->
+{% block assets %}
+<div class="modal fade" id="exampleModalb" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">修改</h4>
+             </div>
+                
+                <!-- 滚动条属性-->
+         <div class="modal-body xialatiao">
+         <form >
+         <div class="form-group">
+                <label for="id" class="control-label">id标识</label>
+                <input type="text" class="form-control" id="idb" name="id" disabled>
+         </div>
+
+                 <div class="form-group">
+                     <label for="sn" class="control-label">SN编号</label>
+                     <input type="text" class="form-control" id="snb" name="sn">
+         </div>
+
+         <div class="form-group">
+                 <label for="ip" class="control-label">IP地址</label>
+                 <input type="text" class="form-control" id="ipb" name="ip">
+         </div>
+
+          <div class="form-group">
+                 <label for="hostname" class="control-label">主机名</label>
+                 <input type="text" class="form-control" id="hostnameb" name="hostname">
+          </div>
+
+          <div class="form-group">
+                 <label for="machine_room" class="control-label">机房</label>
+                 <input type="text" class="form-control" id="machine_roomb" name="machine_room">
+          </div>
+
+          <div class="form-group">
+                 <label for="bussiness" class="control-label">业务</label>
+                 <input type="text" class="form-control" id="bussinessb" name="bussiness">
+          </div>
+
+          <div class="form-group">
+                 <label for="admin" class="control-label">使用者</label>
+                 <input type="text" class="form-control" id="adminb" name="admin">
+          </div>
+
+          <div class="form-group">
+                 <label for="cpu" class="control-label">CPU</label>
+                 <input type="text" class="form-control" id="cpub" name="cpu">
+          </div>
+
+          <div class="form-group">
+                 <label for="ram" class="control-label">内存</label>
+                 <input type="text" class="form-control" id="ramb" name="ram">
+          </div>
+
+          <div class="form-group">
+                 <label for="disk" class="control-label">硬盘</label>
+                 <input type="text" class="form-control" id="diskb" name="disk">
+          </div>
+
+          <div class="form-group">
+                 <label for="os" class="control-label">操作系统</label>
+                 <input type="text" class="form-control" id="osb" name="os">
+          </div>
+
+          <div class="form-group">
+                 <label for="model" class="control-label">型号</label>
+                 <input type="text" class="form-control" id="modelb" name="model">
+          </div>
+
+          <div class="form-group">
+                 <label for="purchase_date" class="control-label">采购时间</label>
+                 <input type="text" class="form-control" id="purchase_dateb" name="purchase_date">
+          </div>
+
+          <div class="form-group">
+                 <label for="vendor" class="control-label">厂商</label>
+                 <input type="text" class="form-control" id="vendorb" name="vendor">
+          </div>
+
+          <div class="form-group">
+                 <label for="statusa" class="control-label">状态</label>
+                 <input type="text" class="form-control" id="statusb" name="statusb" >
+          </div>
+      </form>
+ </div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">
+        <span class="glyphicon glyphicon-remove tubiao3" aria-hidden="true"></span>
+        关闭
+    </button>
+        <button type="button" class="btn btn-primary" id="btn_update">
+            <span class="glyphicon glyphicon-ok tubiao3" aria-hidden="true"></span>
+            更新
+        </button>
+               </div>
+            </div>
+        </div>
+   </div>
+                 {% endblock %}
+
+<!-- 资产删除 assets_dele  -->
+{% block assets_dele %}
+<div class="modal fade" id="delete_asset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title" id="exampleModalLabel">删除资产</h4>
+             </div>
+             <div class="modal-body">
+              <form >
+                <div class="form-group">
+                      <label for="num" class="control-label">删除编号?</label>
+                      <input type="text" class="form-control" id="num" name="num" disabled="disabled">
+                </div>
+              </form>
+              <!--  确定删除资产?<span id="delete-username"></span>
+                <input type="hidden" id="num" name="num"> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove tubiao3" aria-hidden="true"></span>
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="btn_delete">
+                    <span class="glyphicon glyphicon-ok tubiao3" aria-hidden="true"></span>
+                    确认删除
+                </button>
+            </div>
+         </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery('#delete_asset').on('show.bs.modal',  function (event) {
+         var button = jQuery(event.relatedTarget)
+         var recipient = button.data('whatever')
+         var modal = jQuery(this)
+             modal.find('modal-title').text('删除用户' + recipient)
+             modal.find('modal-body input').val(recipient)
+             modal.find('#num').val(button.data('id'));
+        });
+             jQuery('#btn_delete').on('click', function() {
+                var id = jQuery('#num').val()
+                    jQuery.post('/assets/deleteasset/', {
+                        'id' : id
+                     }, function(data) {
+                        console.log(data);
+                        if(data['ok']) {
+                            jQuery('#delete_asset').modal('hide');
+                            window.location.reload();
+                        } else {
+                            jQuery('#error').text(data['result']);
+                            jQuery('#error').show();
+                       }
+                    }, 'json');
+             });
+       });
+</script>
+{% endblock %}
+
+<!-- 资产新建 -->
+{% block js%} 
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery('#create-dialog').on('show.bs.modal', function (event) {
+       var button = jQuery(event.relatedTarget)
+       var recipient = button.data('whatever')
+       var modal = jQuery(this)
+            modal.find('modal-title').text('新建用户' + recipient)
+            modal.find('modal-body input').val(recipient)
+
+        });
+            jQuery('#btn-asset').on('click', function() {
+                  var   sn = jQuery('#sn').val(),
+                        ip = jQuery('#ip').val(),
+                        hostname = jQuery('#hostname').val(),
+                        machine_room = jQuery('#machine_room').val(),
+                        bussiness = jQuery('#bussiness').val(),
+                        admin = jQuery('#admin').val(),
+                        cpu = jQuery('#cpu').val(),
+                        ram = jQuery('#ram').val(),
+                        disk = jQuery('#disk').val(),
+                        os = jQuery('#os').val(),
+                        model = jQuery('#model').val(),
+                        purchase_date = jQuery('#purchase_date').val(),
+                        vendor = jQuery('#vendor').val(),
+                        statusa = jQuery('#statusa').val()
+                        jQuery.post('/assets/addasset/', {
+                             'sn' : sn,
+                             'ip' : ip,
+                             'hostname' : hostname,
+                             'machine_room' : machine_room,
+                             'bussiness' : bussiness,
+                             'admin' : admin,
+                             'cpu' : cpu,
+                             'ram' : ram,
+                             'disk' : disk,
+                             'os' : os,
+                             'model' : model,
+                             'purchase_date' : purchase_date,
+                             'vendor' : vendor,
+                             'statusa' : statusa
+                        }, function(res) {
+                           console.log(res);
+                           if(res['ok']) {
+                               jQuery('#create-dialog').modal('hide');
+                               window.location.reload();
+                           } else {
+                               jQuery('#error').text(data['result']);
+                               jQuery('#error').show();
+                           }
+                       }, 'json');
+                   });
+               });
+           </script> 
+          {% endblock %}
+
+<!-- 资产修改 assets_update -->
+{% block assets_update %}
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery('#exampleModalb').on('show.bs.modal', function (event) {
+           var button = jQuery(event.relatedTarget)
+           var recipient = button.data('whatever')
+           var modal = jQuery(this)
+               modal.find('modal-title').text('修改用户' + recipient)
+               modal.find('modal-body input').val(recipient)
+               modal.find('#idb').val(button.data('id'));
+               modal.find('#snb').val(button.data('sn'));
+               modal.find('#ipb').val(button.data('ip')); 
+               modal.find('#hostnameb').val(button.data('hostname'));
+               modal.find('#machine_roomb').val(button.data('machine_room'));
+               modal.find('#bussinessb').val(button.data('bussiness'));
+               modal.find('#adminb').val(button.data('admin'));
+               modal.find('#cpub').val(button.data('cpu'));
+               modal.find('#ramb').val(button.data('ram'));
+               modal.find('#diskb').val(button.data('disk'));
+               modal.find('#osb').val(button.data('os'));
+               modal.find('#modelb').val(button.data('model')); 
+               modal.find('#purchase_dateb').val(button.data('purchase_date'));
+               modal.find('#vendorb').val(button.data('vendor'));
+               modal.find('#statusb').val(button.data('statusb'))
+        });
+               jQuery('#btn_update').on('click', function() {
+                   var    id = jQuery('#idb').val(),
+                          sn = jQuery('#snb').val(),
+                          ip = jQuery('#ipb').val(),
+                          hostname = jQuery('#hostnameb').val(),
+                          machine_room = jQuery('#machine_roomb').val(),
+                          bussiness = jQuery('#bussinessb').val(),
+                          admin = jQuery('#adminb').val(),
+                          cpu = jQuery('#cpub').val(),
+                          ram = jQuery('#ramb').val(),
+                          disk = jQuery('#diskb').val(),
+                          os = jQuery('#osb').val(),
+                          model = jQuery('#modelb').val(),
+                          purchase_date = jQuery('#purchase_dateb').val(),
+                          vendor = jQuery('#vendorb').val(),
+                          statusb = jQuery('#statusb').val()
+                          jQuery.post('/assets/assets_update/', {
+                                'sn' : sn,
+                                'ip' : ip,
+                                'hostname' : hostname,
+                                'machine_room' : machine_room,
+                                'bussiness' : bussiness,
+                                'admin' : admin,
+                                'cpu' : cpu,
+                                'ram' : ram,
+                                'disk' : disk,
+                                'os' : os,
+                                'model' : model,
+                                'purchase_date' : purchase_date,
+                                'vendor' : vendor,
+                                'statusb' : statusb,
+                                'id' : id
+                           }, function(res) {
+                              console.log(res);
+                              if(res['ok']) {
+                                  jQuery('#exampleModalb').modal('hide');
+                                  window.location.reload();
+                              } else {
+                                  jQuery('#error').text(data['result']);
+                                  jQuery('#error').show();
+                              }
+                          }, 'json');
+                    });
+              });
+         </script>
+{# echarts #}
+<script type="text/javascript" src="{{url_for('static', filename="js/highcharts.js")}}"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+function show_detail(ip) {
+      jQuery.get('/assets/moniters/' + ip + '/', function(res) {
+        categories = res['data']['categories'];
+        series = res['data']['series'];
+        jQuery('#host_detail').highcharts({
+          title: {
+              text: '主机' + ip + '的资源使用情况',
+              x: -20 //center
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+              categories: categories
+          },
+          yAxis: {
+              title: {
+                  text: '使用率'
+              },
+              plotLines: [{
+                  value: 0,
+                  width: 1,
+                  color: '#808080'
+              }]
+          },
+          tooltip: {
+              valueSuffix: '%'
+          },
+          legend: {
+              layout: 'vertical',
+              align: 'right',
+              verticalAlign: 'middle',
+              borderWidth: 0
+          },
+          series: series
+      });
+      }, 'json');
+    }
+  var tval = null;
+  jQuery('#cat_asset').on('show.bs.modal', function (event) {
+    var button = jQuery(event.relatedTarget),
+        host_id = button.data('id'),
+        host_ip = button.data('ip'),
+        categories = [],
+        series =[];
+        show_detail(host_ip);
+        tval = setInterval(function() {
+          show_detail(host_ip)
+        },6 * 10000);
+  });
+
+  jQuery('#cat_asset').on('hide.bs.modal', function (event) {
+      if(tval){clearInterval(tval);}
+  }); 
+});
+ </script> 
+ {% endblock %}
+

@@ -1,0 +1,14 @@
+
+
+ yum install libmpc -y
+ yum install kernel* -y
+ yum groupinstall 'Development Tools' -y
+ yum install openssl* -y
+ yum install openssl-devel  -y
+ yum install openssh* -y
+
+rm -rf /usr/bin/gcc
+rm -rf /usr/bin/g++
+ln -s /opt/app/gcc/bin/gcc /usr/bin/gcc
+ln -s /opt/app/gcc/bin/g++ /usr/bin/g++
+

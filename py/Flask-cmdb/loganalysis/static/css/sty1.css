@@ -1,0 +1,144 @@
+.error1{
+     color:red;
+}
+
+.zuoce {
+   position: fixed;
+   top: 51px;
+   bottom: 0;
+   left: 0;
+   z-index: 1000;
+   display: block;
+   padding: 20px;
+   overflow-x: hidden;
+   overflow-y: auto;
+/*   background-color: #f5f5f5; */ 
+/* 左侧栏黑色背景 默认使用上面颜色*/
+/*   background-color: #101010; */ 
+   border-right: 1px solid #eee;
+/* 左侧菜单栏距离限制*/
+    width: 12.66666667%;
+}
+
+.youce {
+   padding-right: 40px;
+   padding-left: 40px;
+   padding: 20px;
+   margin-left: 17%;
+   width: 75%;
+   float: left;
+}
+
+.zhuce {
+    padding:15px 120px;
+}
+
+.youcebianju {
+    width: 1150px;
+
+}
+
+/*   color #9d9d9d; 左侧字体颜色 */
+.ziti {
+    color: #9d9d9d;
+ }
+
+/* 背景图片设置 */
+.beijing {
+    width: 1423px;
+    height: 499px;
+    background-image:url(../images/beijing.png)
+}
+
+/* 弹出框下拉条*/
+.xialatiao {
+    max-height: 430px;
+    overflow-y: auto;
+}
+
+
+/* 左侧菜单栏和右侧显示栏距离限制 */ 
+.youcexianshineirong {
+    margin-left: -40px;
+}
+
+/* salt-api界面字体距离   */
+
+.biankuangjuli_ip {
+    margin-left: -200px;
+    margin-top: 30px;
+}
+/* 字体距离 */
+.biankuangjuli_cmd {
+    margin-left: -170px;
+    margin-top: -16px;
+}
+
+ .biankuangjuli_cmd_kuang {
+    margin-left: -193px;
+    margin-top: 15px;
+}
+ /* 字体距离 */
+.biankuangjuli_fun {
+    margin-left: -173px;
+    margin-top: -15px;
+}
+.biankuangjuli_fun_fun {
+    margin-left: -193px;
+    margin-top: 15px;
+}
+
+/* 字体距离 */
+.biankuangjuli_arg {
+    margin-left: -178px;
+    margin-top: -15px;
+}
+.biankuangjuli_arg_arg {
+    margin-left: -193px;
+    margin-top: 15px;
+}
+
+
+.biankuangjuli_exec {
+    /* Execute 字体距离： */
+    left: 950px;
+    bottom: 60px;
+}
+
+.biankuangjuli_exec_exec {
+    margin-left: 760px;
+    margin-top: -58px;
+}
+ /* 表示距离  */
+.zhixingbiaoshi {
+    margin-left: 540px;
+    margin-bottom: -100px;
+}
+
+
+
+/* moniter页面属性   */
+.biankuangjuli_add_exec {
+    left: 840px;
+    bottom: 65px;
+}
+
+/*   */
+.biankuangjuli_add_exec1 {
+    margin-left: 650px;
+    margin-top: -58px;
+}
+
+.biankuangjuli_dele_1 {
+    left: 570px;
+    bottom: 65px;
+}
+.biankuangjuli_dele_2 {
+    margin-left: 380px;
+    margin-top: -58px;
+}
+
+/* 隐藏 ul,ol */
+.yincang {
+    list-style:none;
+}

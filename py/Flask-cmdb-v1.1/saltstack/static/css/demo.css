@@ -1,0 +1,31 @@
+.users {
+   /* width:900px;
+    height:1000px; 
+    background-color:#66FF99; */
+    width:2px;
+    background-image:url(../images/user.png);
+    background-repeat:no-repeat;    /* 不让背景图片重复*/
+    background-position: 9px;
+    left:auto;
+    top:;
+    bottom:;
+    right:auto;
+}
+
+.locks {
+	width:2px;
+	background-image:url(../images/lock.png);
+	background-repeat:no-repeat;
+	background-position: 7px;
+	left:auto;
+	top:;
+	bottom:;
+	right:auto;
+}
+
+.img_user {
+    width: 45px;
+}
+.img_lock {
+    width: 45px;
+}

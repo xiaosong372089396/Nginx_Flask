@@ -1,0 +1,92 @@
+{% set NODENAME = grains['nodename'] %}
+{% set BINDIR = '/usr/local/sbin/' %}
+{% set LOGDIR = '/var/log/zabbix/zabbix_agent.log' %}
+{% set Serverip = '192.168.31.210' %}
+{% set NODEIP = grains['ipv4'][1] %}
+
+zabbix_depen:
+    pkg.installed:
+      - pkgs:
+        - gcc
+        - net-snmp-devel
+        - net-snmp-utils
+        - automake
+        - net-snmp
+        - wget
+        - make
+        - cmake
+        - OpenIPMI
+        - OpenIPMI-devel
+        - rpm-build
+
+zabbix_source:
+    file.managed:
+        - name : /tmp/zabbix-agent-2.4.1.rpm
+        - source: salt://files/common/zabbix_agent-2.4.2-salt.x86_64.rpm
+        - unless: test -e /tmp/zabbix-agent-2.4.1.rpm
+        - require:
+            - pkg: zabbix_depen
+    cmd.run:
+        - cwd: /tmp/
+        - name: rpm -ivh /tmp/zabbix-agent-2.4.1.rpm
+        - unless: test -e /etc/init.d/zabbix_agentd
+
+zabbix_user:
+    user.present:
+        - name: zabbix
+        - uid: 2000
+        - createhome: False
+        - gid_from_name: True
+        - shell: /sbin/nologin
+
+zabbix_log_dir:
+    file.directory:
+        - name: /var/log/zabbix
+        - user: zabbix
+        - group: zabbix
+        - dir_mod: 0755
+
+zabbix_config_init:
+    file.managed:
+        - name:  /usr/local/etc/zabbix_agentd.conf
+        - source: salt://files/common/zabbix_agentd.conf
+        - template: jinja
+        - defaults:
+           LOG: {{ LOGDIR  }}
+           SERVERIPADD: {{ Serverip }}
+           NODENAME: {{ NODENAME }}
+
+zabbix_service:
+    service.running:
+        - name: zabbix_agentd
+        - enable: True
+        - restart: True
+        - watch:
+            - file: /usr/local/etc/zabbix_agentd.conf
+
+api_file_copy:
+    file.managed:
+        - name: /tmp/sendhost.py
+        - source: salt://files/common/sendhost.py
+        - template: jinja
+        - defaults:
+            NODENAME: {{  NODENAME }}
+            AGENTIP: {{ NODEIP }}
+            SERIPADDR: {{ Serverip }}
+    cmd.run:
+        - name: /usr/bin/python /tmp/sendhost.py
+		
+		
+		
+		
+zabbix_agentd.conf
+LogFile={{ LOG }}
+DebugLevel=3
+ListenPort=2000
+StartAgents=0
+ServerActive={{ SERVERIPADD }}
+Hostname={{ NODENAME }}
+RefreshActiveChecks=120
+# active settting
+AllowRoot=1
+BufferSize=200

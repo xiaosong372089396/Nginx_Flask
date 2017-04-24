@@ -1,0 +1,140 @@
+{% extends 'bodys.html' %}
+{% block title %}监控系统平台{% endblock %}
+
+ {% block options %}
+<link rel="stylesheet" type="text/css" href="../static/css/sty1.css" >
+<h4 class="page-header youcebianju">Zabbix API集成</h4>
+<div class="row placeholders">
+    <div class="col-md-1">
+    </div>
+</div>
+{% endblock %}
+
+{% block neirong %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+                 <thead>
+                     <tr>
+                       <th>主机id</th>
+                       <th>主机IP,模板名称</th>
+                       <th>主机名称</th>
+                       <th>状态</th>
+                       <th>操作</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+
+                                {% for i in hostid %}
+                       <tr>
+                             <td>{{ i[0] }}</td>
+                             <td>{{ i[2] }}</td>
+                             <td>{{ i[29] }}</td>
+                             <td>Active</td>
+                             <td>
+
+<!-- 测试 点击修改位置-->
+<a class="btn-warning" data-toggle="modal" data-target="#delete_user" data-id="{{ i[0] }}" id="delete_user1">删除</a>
+        </div>
+</td>
+                        {% endfor %}
+    </tbody>
+    <tfoot></tfoot>
+</table>
+
+<!-- <div class="row"> -->
+    <div class="col-md-3">
+        <div class="pagination-num">第{{ pageNum }} 页，共 {{ maxPageNum }} 页</div>
+    </div>
+<div class="col-md-9">
+<nav class="nav-page">
+    <ul class="pagination">
+    <li
+    {% if pageNum <= 1 %}
+    class="disabled"
+    {% endif %}
+    >
+        <a href="{{url_for('zabbix.zabbix_moniter', pageNum=pageNum - 1)}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    {% for page in range( startPageNum, endPageNum + 1 )%}
+    <li
+    {% if page == pageNum %}
+    class="active"
+    {% endif %}
+    ><a href="{{url_for('zabbix.zabbix_moniter', pageNum=page)}}">{{page}}</a></li>
+    {% endfor %}
+    <li
+
+     {% if pageNum >= maxPageNum %}
+     class="disabled"
+     {% endif %}
+     >
+
+        <a href="{{url_for('zabbix.zabbix_moniter', pageNum=pageNum + 1)}}" aria-label="Next">
+
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+</ul>
+</nav>
+</div>
+</div>
+<!-- 分页pageing -->
+         {% endblock %}
+
+
+{% block js %}
+<div class="modal fade" id="delete_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <h4 class="modal-title" id="exampleModalLabel">删除Zabbix主机</h4>
+             </div>
+
+             <div class="modal-body">
+                 <form >
+                    <div class="form-group">
+                    <label for="num1" class="control-label">删除ID编号</label>
+                    <input type="text" class="form-control" id="num1" name="num1" disabled="disabled"  />
+                 </div>
+             </form>
+         </div>
+         <div class="modal-footer">
+             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+             <button type="button" class="btn btn-primary" id="deleuser">确认删除</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery('#delete_user').on('show.bs.modal', function (event) {
+        var button = jQuery(event.relatedTarget)
+        var recipient = button.data('whatever')
+        var modal = jQuery(this)
+            modal.find('modal-title').text('删除Zabbix主机' + recipient)
+            modal.find('modal-body input').val(recipient)
+            modal.find('#num1').val(button.data('id'));
+        });
+            jQuery('#deleuser').on('click', function() {
+                var id = jQuery('#num1').val()
+                    jQuery.post('/zabbix/dele_moniter/', {
+                        'id' : id
+                        /* 这里吃了一个大坑， 因为执行Ajax后，模态框没有隐藏掉，错误原因在Flask,处理完后，return 返回的不是json  */
+                    }, function(data) {
+                       console.log(data);
+                       if(data['ok']) {
+                        jQuery('#delete_user').modal('hide');
+                            window.location.reload();
+                    } else {
+                        jQuery('#error').text(data['result']);
+                        jQuery('#error').show();
+                    }
+                }, 'json');
+           });
+       });
+</script>
+{% endblock %}

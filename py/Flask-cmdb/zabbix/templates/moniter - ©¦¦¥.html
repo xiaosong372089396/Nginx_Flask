@@ -1,0 +1,89 @@
+{% extends 'bodys.html' %}
+{% block title %}监控系统平台{% endblock %}
+
+ {% block options %}
+<h4 class="page-header youcebianju">Zabbix API集成</h4>
+<div class="row placeholders">
+    <div class="col-md-1">
+{% endblock %}
+
+{% block neirong %}
+<form class="form-horizontal" action="/zabbix/add_moniter/" method="post">
+  <div class="form-group">
+        <label  class="col-sm-2 control-label">主机名</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control biankuangjuli_ip"  name="hostname"  required autofocus />
+        </div>
+  </div>
+
+<div class="form-group">
+       <label  class="col-sm-2 control-label biankuangjuli_cmd">IP地址</label>
+       <div class="col-sm-2">
+           <input type="text" class="form-control biankuangjuli_cmd_kuang" name="ip"  required autofocus />
+       </div>
+</div>
+
+ <div class="form-group">
+       <label  class="col-sm-2 control-label biankuangjuli_cmd biankuangjuli_arg">组ID</label>
+       <div class="col-sm-2">
+           <select class="form-control biankuangjuli_arg_arg " id="group_id" name='group_id'  placeholder="group_id" required autofocus />
+                                     {% for id, template in group.items() %}
+                            <option selected = "selected">{{ id }}&nbsp;:{{ template }}</option>
+                                     {% endfor %}
+                   </select>
+       </div>
+</div>
+
+<div class="form-group">
+       <label  class="col-sm-2 control-label  biankuangjuli_arg ">组ID</label>
+       <div class="col-sm-2">
+           <select class="form-control biankuangjuli_arg_arg" id="template_id" name='template_id' placeholder="template_id" required autofocus />
+                                        {% for template_id, template_name in template.items() %}
+                        <option selected="selected">{{ template_id }}&nbsp;:{{ template_name }}</option>
+                                        {% endfor %}
+                    </select>
+       </div>
+</div>
+<div class="form-group">
+       <label class="col-sm-2 control-label biankuangjuli_add_exec">add添加</label>
+       <div class="col-sm-2">
+           <button type="submit" class="btn btn-success biankuangjuli_add_exec1">添加</button>
+       </div>
+</div>
+</form>
+<form class="form-horizontal" action="/zabbix/zabbix_moniter/" method="post">
+<div class="form-group">
+       <label class="col-sm-2 control-label biankuangjuli_dele_1">查看监控服务器</label>
+       <div class="col-sm-2">
+           <button type="submit" class="btn btn-info biankuangjuli_dele_2">查看</button>
+       </div>
+</div>
+</form>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+                 <thead>
+                     <tr>
+                       <th>主机id</th>
+                       <th>主机IP,模板名称</th>
+                       <th>主机名称</th>
+                       <th>状态</th>
+                       <th>操作</th>
+                     </tr>
+                 </thead>
+                 <tbody>
+
+                                {% for i in hostid %}
+                       <tr>
+                             <td>{{ i[0] }}</td>
+                             <td>{{ i[2] }}</td>
+                             <td>{{ i[29] }}</td>
+                             <td>Active</td>
+                             <td>
+
+<!-- 测试 点击修改位置-->
+<a class="btn-warning" data-toggle="modal" data-target="#delete_user" data-id="1" id="delete_user">删除</a>
+        </div>
+</td>
+                           {% endfor %}
+         {% endblock %}

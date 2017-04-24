@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <form action="" method="post"> 
+         {% if error %}
+          <span style="color:read">{{error}} </span><br />
+          {% endif %} 
+            mingzi: <input type="text" name="username" value="{{name}}" /><br />
+            mima:   <input type="password" name="password" value="{{password}}" /><br />
+             <input type="submit" value="denglu" />
+        </form>
+    </body>
+</html>

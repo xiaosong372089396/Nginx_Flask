@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+          <meta charset="UTF-8">
+          <title>{% block title %}{% endblock %}</title>
+          <!-- 获取显示器的物理行高，进行适配 -->
+          <meta name="viewport" content="width=device-width, initial-scale=1">         
+           <!-- 新 Bootstrap 核心 CSS 文件 -->
+          <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+          <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+           <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+          <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+           <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>          
+          <!-- 时间戳 -->
+          {% block script %}{% endblock %}
+          {% block link %}
+           <link rel="stylesheet" type="text/css" href="../static/css/sty1.css" />
+           <link rel="stylesheet" type="text/css" href="../static/css/sty_color.css" />
+            <script type="text/javascript" src="../static/js/matrix.js"></script>
+          {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top title_daohang">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">运维管理平台</a>
+                    
+                    <!-- 账号注册按钮 -->
+                   {% block btn_update %} {% endblock %}
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">当前登录 !</a></li>
+                        <li><a href="#">{{session['user']['username']}}</a></li>
+                        <li><a href="/login/Exit/">退出 !</a></li>
+                    </ul>
+                </div>
+                </div>
+        </nav>
+
+        <div class="container-fluid">
+          <div class="row">
+          <!-- zuoce.css-->
+            <div class="col-sm-3 col-md-2 sidebar zuoce">
+                <ul class="nav nav-sidebar">
+                    <!-- .ziti 左侧字体颜色进行覆盖 -->
+                    <li><a class="ziti" href="/usermanagement/usermanagement/">用户管理</a></li>
+                    <li><a class="ziti" href="/assets/assets/">资产管理</a></li>
+                    <li><a class="ziti" href="/loganalysis/Loganalysis/">日志分析</a></li>
+                </ul>
+                    <ul class="nav nav-sidebar">
+                        <li class="submenu"><a href="#"><i class="icon icon-file"></i><span>运维管理</span></a>
+                            <ul class="yincang">
+                                <li><a class="ziti" href="/saltstack/installation/">部署安装</a></li>
+                                <li><a class="ziti" href="/saltstack/editor/">在线编辑</a></li>
+                            </ul>
+                        </li>
+
+
+                    <ul class="nav nav-sidebar">
+                            <li class=" submenu"><a href="#"><i class="icon icon-file"></i><span>监控平台</span></a>
+                                <ul class="yincang">
+                                    <li><a class="ziti" href="/zabbix/moniter/">添加监控</a></li>
+                                    <li><a class="ziti" href="/zabbix/zabbix_moniter/">展示信息</a></li>
+                                </ul>
+                            </li>
+
+                    <ul class="nav nav-sidebar">
+                        <li><a class="ziti" href="">域名统计</a></li>
+                        <li><a class="ziti" href="">配置管理</a></li>
+                        <li><a class="ziti" href="">上线系统</a></li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li><a class="ziti" href="">资源管理</a></li>
+                        <li><a class="ziti" href="">网络管理</a></li>
+                        <li><a class="ziti" href="">其他item</a></li>
+                    </ul>
+            </div>
+
+             <!-- 添加youce.css属性 -->
+             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main youce">
+                <!-- 左侧菜单和右侧显示内容区域距离 -->
+                <div class="page-header youcexianshineirong"></h1>
+
+                <!-- 测试增删改查按钮 -->
+                     {% block options %}
+                     <h3 class="page-header">首页</h3>
+                         <div class="row placeholders">
+                         </div>
+                        {% endblock %}
+
+                <!-- 查询按钮-->
+                  {% block container %}
+                <div class="table-responsive" style="width: 1150px;">
+                 {% endblock %}
+
+             <div class="table-responsive">
+               <table class="table table-bordered table-striped table-hover">
+                    {% block neirong %}
+                        <h4>欢迎：{{session['user']['username']}}&nbsp;登陆使用运维管理平台</h4>
+                    {% endblock %}
+
+
+         <!-- 账号注册部分 -->
+         {% block usermanagement %}{% endblock %}
+
+         <!-- 用户修改部分 -->
+         {% block Modify %}{% endblock %}
+
+         <!-- 用户管理删除 -->
+         {% block user_dele %}{% endblock %}
+         
+         <!-- 资产修改部分 -->
+         {% block assets %}{% endblock %}
+
+         <!-- 资产删除部分 -->
+         {% block assets_dele %}{% endblock %}
+         
+
+           <!-- 账号注册部分 end -->
+{#<script src="{{url_for('static', filename='bootstrap-datetimepicker-master/js/bootstrap.min.js')}}"></script> #}
+    {% block script1 %}{% endblock %}
+
+<!--  注册账号Ajax -->
+{% block zhuce %}
+{% endblock %}
+
+<!-- 用户管理修改，资产新建 -->
+{% block js %}
+{% endblock %}
+
+<!-- 资产修改 -->
+{% block assets_update %}
+{% endblock %}
+       </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+        <title>登录后台管理系统</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+         <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+         <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+         <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+         <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </head>
+        <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../static/css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" type="text/css" href="../static/css/matrix-login.css" />
+        <link href="static/css/font-awesome.css" rel="stylesheet" />
+        <link href='http://fonts.useso.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="../static/css/demo.css" />
+    </head>
+
+
+    <body>
+        <div id="loginbox">    
+        <!--id, login class, container aaa -->        
+            <form id="loginform" action="/login/login/" method="post" class="form-vertical">
+                 <div class="control-group normal_text"> <h3><img src="../static/images/logo.png" alt="Logo" /></h3></div>
+                                            <!-- Loginerror -->
+                                            {% if Loginerror %}
+                                                <div class="error">{{ Loginerror }}</div>
+                                            {% endif %}  
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                        <!-- img_user -->
+                        <span class="add-on bg_lg users"><i class="icon-user"></i></span><input  type="text" name="username" placeholder="用户名" required autofocus/>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                        <!-- img_lock -->
+                        <span class="add-on bg_ly locks"><i class="icon-lock"></i></span><input  type="password"  name="password" placeholder="密码" required autofocus/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <span class="pull-right"><button type="submit" class="btn btn-success" /> 登录</button></span>
+                </div>
+            </form>
+                    
+                    </div>
+        </div>
+        
+    </body>
+
+</html>

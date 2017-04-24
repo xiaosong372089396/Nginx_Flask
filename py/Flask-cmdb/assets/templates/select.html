@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">   
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/css/sty1.css" >
+    </head>
+           
+                 {% for option in pages %}
+      <form class="form-inline">
+          <div class="col-xs-3 assets_juli">
+                <input type="text" class="form-control" name="sn" value={{option[0]}} placeholder="ID编号" />ID编号<br />
+                <input type="text" class="form-control" name="ip" value={{option[1]}} placeholder="SN" />SN<br />
+                <input type="text" class="form-control" name="hostname" value={{option[2]}} placeholder="IP" />IP<br />
+                <input type="text" class="form-control" name="machine_room_id" value={{option[3]}} placeholder="主机名称" />主机名称<br />
+                <input type="text" class="form-control" name="bussiness" value={{option[4]}} placeholder="托管机房" />托管机房<br />
+                <input type="text" class="form-control" name="admin" value={{option[5]}} placeholder="业务" />业务<br />
+                <input type="text" class="form-control" name="cpu" value={{option[6]}} placeholder="使用者" />使用者<br />
+                <input type="text" class="form-control" name="ram" value={{option[7]}} placeholder="CPU" />CPU<br />
+                <input type="text" class="form-control" name="disk" value={{option[8]}} placeholder="RAM" />RAM<br />
+                <input type="text" class="form-control" name="os" value={{option[9]}} placeholder="DISK" />DISK<br />
+                <input type="text" class="form-control" name="model" value={{option[10]}} placeholder="操作系统" />操作系统<br />
+                <input type="text" class="form-control" name="purchase_date" value={{option[11]}} placeholder="型号" />型号<br />
+                <input type="text" class="form-control" name="vendor" value={{option[12]}} placeholder="采购时间" />采购时间<br />
+                <input type="text" class="form-control" name="status" value={{option[13]}} placeholder="厂商" />厂商<br />
+          </div>
+                 {% endfor %}
+        </form>
+    </body>
+</html>

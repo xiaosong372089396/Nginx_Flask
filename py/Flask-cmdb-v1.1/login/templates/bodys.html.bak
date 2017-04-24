@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>运维管理平台</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../static/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="../static/css/fullcalendar.css" />
+<link rel="stylesheet" href="../static/css/matrix-style.css" />
+<link rel="stylesheet" href="../static/css/matrix-media.css" />
+<link rel="stylesheet" href="../static/css/jquery.gritter.css" />
+    <script type="text/javascript" src="../static/js/matrix.js"></script>
+</head>
+<body>
+
+<!--Header-part-->
+<div id="header">
+  <h1><a href="#">运维管理平台</a></h1>
+</div>
+<!--close-Header-part-->
+<!--top-Header-menu-->
+<div id="user-nav" class="navbar navbar-inverse">
+  <ul class="nav">
+    <li  class="dropdown" id="profile-messages" >
+	  <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+	   <i class="icon icon-user">
+	    </i>  
+		<span class="text">欢迎:{{session['user']['username']}}</span>
+		<b class="caret"></b>
+	  </a>
+      <ul class="dropdown-menu">
+        <li>
+		   <a href="#">
+		      <i class="icon-user"></i> 
+			    我的资料
+		   </a>
+		</li>
+        <li class="divider"></li>
+        <li>
+		   <a href="#">
+		       <i class="icon-check"></i> 
+			       我的任务
+		   </a>
+		</li>
+        <li class="divider"></li>
+        <li>
+			<a href="/login/Exit">
+				<i class="icon-key"></i> 
+				退出
+			</a>
+		</li>
+      </ul>
+    </li>
+    <li class="dropdown" id="menu-messages">
+      <ul class="dropdown-menu">
+        <li>
+			<a class="sAdd" title="" href="#">
+				<i class="icon-plus"></i> 
+					新消息
+			</a>
+		</li>
+        <li class="divider"></li>
+        <li>
+			<a class="sInbox" title="" href="#">
+				<i class="icon-envelope"></i> 
+					收件箱
+			</a>
+		</li>
+        <li class="divider"></li>
+        <li>
+			<a class="sOutbox" title="" href="#">
+				<i class="icon-arrow-up"></i> 
+				发件箱
+			</a>
+		</li>
+        <li class="divider"></li>
+        <li>
+			<a class="sTrash" title="" href="#">
+				<i class="icon-trash"></i> 
+					发送
+			</a>
+		</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!--close-top-Header-menu-->
+<!--start-top-serch-->
+<div id="search"></div>
+<!--close-top-serch-->
+<!--sidebar-menu-->
+<div id="sidebar">
+	<a href="#" class="visible-phone">
+		<i class="icon icon-home"></i> 
+			控制台
+	</a>
+  <ul style="display: block;">   <!-- -->
+    <li class="active">
+		<a href="/usermanagement/usermanagement/">
+			<i class="icon icon-home">
+			</i> 
+				<span>用户管理</span>
+		</a> 
+	</li>
+    <li>
+		<a href="/assets/assets/">
+			<i class="icon icon-signal">
+			</i> 
+			<span>资产管理</span>
+		</a>
+	</li>
+    <li>
+		<a href="/loganalysis/Loganalysis/">
+			<i class="icon icon-signal">
+			</i> 
+				<span>日志分析</span>
+		</a> 
+	</li>
+
+    <li class="submenu">                       <!-- 下拉菜单 -->
+		<a href="#">
+			<i class="icon icon-th">
+			</i> 
+				<span>运维管理</span>
+		</a>
+	<ul>
+		<li>
+			<a href="/saltstack/installation/">部署安装</a>
+		</li>
+		<li>
+			<a href="/saltstack/editor/">在线编辑</a>
+		</li>
+	</ul>
+	</li>
+
+    <li class="submenu">                                            <!--  下拉菜单 -->
+		<a href="#">
+			<i class="icon icon-fullscreen">
+			</i> 
+				<span>监控平台</span>
+		</a>
+	<ul>
+		<li>
+			<a href="/zabbix/moniter/">添加监控</a>
+		</li>
+		<li>
+			<a href="/zabbix/zabbix_moniter/">展示监控主机</a>
+		</li>
+	</ul>
+	</li>
+
+    <li class="submenu"> 
+		<a href="#">
+			<i class="icon icon-th-list">
+			</i> 
+				<span>域名统计</span>
+		</a>
+      <ul>
+        <li>
+			<a href="#">基本表单</a>
+		</li>
+        <li>
+			<a href="#">带验证的表单</a>
+		</li>
+        <li>
+			<a href="#">带提示的表单</a>
+		</li>
+      </ul>
+    </li>
+    <li>
+		<a href="#">
+			<i class="icon icon-tint">
+			</i> 
+				<span>Web</span>
+		</a>
+	</li>
+    <li>
+		<a href="#">
+			<i class="icon icon-pencil">
+			</i> 
+				<span>组件</span>
+		</a>
+	</li>
+    <li class="submenu"> 
+		<a href="#">
+			<i class="icon icon-file"></i>
+				<span>其他</span> 
+		</a>
+      <ul>
+        <li>
+			<a href="#">首页</a>
+		</li>
+        <li>
+			<a href="#">相册</a>
+		</li>
+        <li>
+			<a href="#">日历</a>
+		</li>
+        <li>
+			<a href="#">清单</a>
+		</li>
+        <li>
+			<a href="#">聊天</a>
+		</li>
+      </ul>
+    </li>
+    <li class="submenu">
+		<a href="#">
+			<i class="icon icon-info-sign">
+			</i> 
+				<span>错误页面</span> 
+		</a>
+      <ul>
+        <li>
+			<a href="#">403错误页面</a>
+		</li>
+        <li>
+			<a href="#">404错误页面</a>
+		</li>
+        <li>
+			<a href="#">05错误页面</a>
+		</li>
+        <li>
+			<a href="#">500错误页面</a>
+		</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<!--sidebar-menu-->
+<!--main-container-part-->
+<div id="content">
+<!--breadcrumbs-->
+  <div id="content-header">
+    <div id="breadcrumb"> 
+		<a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home">
+			</i> 
+			首页
+		</a>
+	</div>
+  </div>
+
+	<!-- 展示内容 -->
+<div id="breadcrum">
+      <a href="" title="Go to Home" class="tip-bottom test2">
+        <i class="icon-home">
+        </i>
+        {% block btn_update %}{% endblock %}
+      </a>
+    </div>
+        <!-- 右侧栏展示内容 -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+                    {% block neirong %}
+                      <tr>
+                          <th>id编号</th>
+                          <th>用户名</th>
+                          <th>密码</th>
+                          <th>年龄</th>
+                          <th>Email</th>
+                          <th>手机</th>
+                          <th>备注</th>
+                      </tr>
+                    </thead>
+                    <div>
+                        {% for user in pages %}
+                    <div>
+                        <td>{{user[0]}}</td>
+                        <td>{{user[1]}}</td>
+                        <td>{{user[2]}}</td>
+                        <td>{{user[3]}}</td>
+                        <td>{{user[4]}}</td>
+                        <td>{{user[5]}}</td>
+                        <td>
+                            {% endfor %}
+                              </td>
+                            {% endblock %}
+
+                  <!-- 账号注册部分 -->
+                  {% block usermanagement %} {% endblock %}
+
+                  <!-- 用户修改部分 -->
+                  {% block Modify %}{% endblock %}
+
+                  <!-- 用户管理删除 -->
+                  {% block user_dele %}{% endblock %}
+
+                  <!--资产修改部分  -->
+                  {% block assets %}{% endblock %}
+
+                  <!--资产删除部分 -->
+                  {% block assets_dele %}{% endblock %}
+
+                  <!--账号注册部分 -->
+                  {% block script1 %}{% endblock %}
+
+              <!--注册账号Ajax -->
+              {% block zhuce %}
+              {% endblock %}
+
+              <!--用户管理修改， 资产新建 -->
+              {% block js %}{% endblock %}
+
+              <!--资产修改 -->
+              {% block assets_update %}{% endblock %}
+      </a>
+   </div>
+</div>
+
+
+
+<!--End-breadcrumbs-->
+<!--Action boxes-->
+</div>
+<!--end-main-container-part-->
+<!--Footer-part-->
+<div class="row-fluid">
+  <div id="footer" class="span12"> 2013 &copy; MatAdmin. </div>
+</div>
+
+<!--end-Footer-part-->
+
+<script src="../static/js/jquery.min.js"></script>
+
+<script src="../static/js/matrix.js"></script>
+<script src="../static/js/matrix.popover.js"></script>
+<ul class="typeahead dropdown-menu"></ul>
+</body>
+</html>

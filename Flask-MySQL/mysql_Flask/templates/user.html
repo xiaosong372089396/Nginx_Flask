@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <meta charset="UTF-8">
+    </head>
+        <body>
+           <table>
+           <thead>
+           <tr>
+               <td>用户名</td>
+               <td>密码</td>
+           </tr> 
+           </thead>
+           <tbody>
+                 {% for user in files %}
+            <tr>
+               <td>{{user[0]}}</td>
+               <td>{{user[1]}}</td>
+            </tr>
+                 {% endfor %}
+           </tbody>
+           </table>
+           </body>
+</html>
